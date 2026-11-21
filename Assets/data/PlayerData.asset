@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77b7711be5d45a46a1f5537232d75fe, type: 3}
+  m_Name: PlayerData
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerData
+  <baseInventoryCapacity>k__BackingField: 1024
+  saveName: dev_save
+  <inventory>k__BackingField:
+    <capacityUnits>k__BackingField: 1024
+    <occupiedUnits>k__BackingField: 352
+    contents:
+    - id: 0
+      count: 128
+    - id: 3
+      count: 69
+    - id: 2
+      count: 13
+    - id: 1
+      count: 6
+    - id: 4
+      count: 2
+    playerData: {fileID: 11400000}

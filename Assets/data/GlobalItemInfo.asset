@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0fd22fa3d96714dba451fe7b2cb2db, type: 3}
+  m_Name: GlobalItemInfo
+  m_EditorClassIdentifier: Assembly-CSharp::GlobalItemInfo
+  itemDefinitions:
+  - sizeUnits: 2
+    name: Stone
+  - sizeUnits: 2
+    name: Wood
+  - sizeUnits: 1
+    name: Sand
+  - sizeUnits: 1
+    name: Dirt
+  - sizeUnits: 1
+    name: Cloth
+  - sizeUnits: 1
+    name: Plant
+  tileItemContents:
+  - key: 1
+    value:
+      items:
+      - id: 0
+        count: 2
+  - key: 2
+    value:
+      items:
+      - id: 0
+        count: 2
+  - key: 5
+    value:
+      items:
+      - id: 3
+        count: 1
+  - key: 3
+    value:
+      items:
+      - id: 2
+        count: 2
+  - key: 6
+    value:
+      items:
+      - id: 2
+        count: 1
+  - key: 7
+    value:
+      items:
+      - id: 0
+        count: 1
+  - key: 8
+    value:
+      items:
+      - id: 2
+        count: 2
+  - key: 9
+    value:
+      items:
+      - id: 1
+        count: 4
+  - key: 10
+    value:
+      items:
+      - id: 1
+        count: 1
+  - key: 11
+    value:
+      items:
+      - id: 1
+        count: 2
+  - key: 12
+    value:
+      items:
+      - id: 4
+        count: 1
+  - key: 13
+    value:
+      items:
+      - id: 4
+        count: 1
+  - key: 14
+    value:
+      items:
+      - id: 5
+        count: 2
