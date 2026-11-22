@@ -49,10 +49,6 @@ public class Chunk : MonoBehaviour
     }
 
     void Update() {
-        /*
-        TODO! save changes instead of just keeping chunk loaded
-        
-        */
         if (this.dirty && !this.modified) {
             Destroy(this.gameObject);
         }

@@ -106,7 +106,9 @@ public class TerrainGenerator : MonoBehaviour
             if (entry.Value.IsModified()) {
                 WriteToFile(entry.Value, entry.Key);
             }
+            Destroy(entry.Value.gameObject);
             this.loadedChunks.Remove(entry.Key);
+            
         }
     }
 
