@@ -1,22 +1,19 @@
-
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CreateNewSave : MonoBehaviour {
-    [SerializeField] TMP_InputField inputField;
+    [SerializeField] TMP_InputField saveNameInputField;
+    [SerializeField] TMP_InputField seedInputField;
 
     [SerializeField] uint initialInventoryCapacity;
     [SerializeField] Chunk spawnChunkPrefab;
     public void OnClick() {
-        var newSaveName = this.inputField.text;
-        if (newSaveName == "" || newSaveName == null) return;
+        var newSaveName = this.saveNameInputField.text;
+        if (string.IsNullOrEmpty(newSaveName)) return;
+        this.saveNameInputField.text = "";
 
-        this.inputField.text = "";
-
-        newSaveName = newSaveName.Replace(" ", "_");
-        var random = new System.Random(); 
-        var seed = random.Next();
+        var seed = ChooseSeed();
 
         var newData = new LevelData();
         
@@ -30,5 +27,14 @@ public class CreateNewSave : MonoBehaviour {
 
         var thisSceneId = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(thisSceneId);
+    }
+
+    int ChooseSeed() {
+        var chosenSeed = this.seedInputField.text;
+        this.seedInputField.text = "";
+        if (string.IsNullOrEmpty(chosenSeed)) {
+            return new System.Random().Next();
+        }
+        else return int.Parse(chosenSeed);
     }
 }
