@@ -173,8 +173,8 @@ public class TerrainGenerator : MonoBehaviour
             var realPos = this.chunkManager.CellToWorld(chunkPos);
             chunkOut = Instantiate(this.defaultChunkPrefab, realPos, Quaternion.identity, this.chunkManager.transform);
 
-            chunkOut.FillData(chunkData.foregroundData, false);
-            chunkOut.FillData(chunkData.backgroundData, true);
+            chunkOut.FillData(chunkData.foregroundData, isBackground:false);
+            chunkOut.FillData(chunkData.backgroundData, isBackground:true);
         }
 
         return chunkOut;

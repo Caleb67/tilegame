@@ -1,3 +1,4 @@
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,8 +12,8 @@ public class CreateNewSave : MonoBehaviour {
     public void OnClick() {
         var newSaveName = this.saveNameInputField.text;
         if (string.IsNullOrEmpty(newSaveName)) return;
-        this.saveNameInputField.text = "";
-
+        if (Files.ExistsSave(newSaveName)) return;
+        
         var seed = ChooseSeed();
 
         var newData = new LevelData();
@@ -25,13 +26,15 @@ public class CreateNewSave : MonoBehaviour {
 
         LevelData.Save(newSaveName, newData);
 
+        this.saveNameInputField.text = "";
+        this.seedInputField.text = "";
+
         var thisSceneId = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(thisSceneId);
     }
 
     int ChooseSeed() {
         var chosenSeed = this.seedInputField.text;
-        this.seedInputField.text = "";
         if (string.IsNullOrEmpty(chosenSeed)) {
             return new System.Random().Next();
         }

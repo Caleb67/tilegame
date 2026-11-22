@@ -24,6 +24,12 @@ public class Files
         }
         return filePath;
     }
+    
+    public static bool ExistsSave(string saveName) {
+        var relativeSaveFilePath = $"{saveName}.json";
+        var filePath = Path.Combine(Files.savesPath, $"{relativeSaveFilePath}");
+        return File.Exists(filePath);
+    }
 
     public static List<Tuple<LevelData, String>> GetAllSaves() {
         var allFilePaths = Directory.GetFiles(savesPath);

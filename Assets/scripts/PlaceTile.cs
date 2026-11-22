@@ -100,8 +100,12 @@ public class PlaceTile : MonoBehaviour
         
         var idx = this.globalTileInfo.tiles.IndexOf(tileAtPos);
         if (idx == -1) return;
-                
-        this.index = idx;
+        
+        try {
+            SelectTile(idx);
+        } catch (ArgumentException) {
+            return;
+        }
     }
 
     void Start() {
