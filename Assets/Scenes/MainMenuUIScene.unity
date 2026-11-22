@@ -900,7 +900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CreateNewSave
   inputField: {fileID: 782815413}
   initialInventoryCapacity: 1024
-  spawnChunkPrefab: {fileID: 0}
+  spawnChunkPrefab: {fileID: 8725344452250469827, guid: 49a45a278428ad846bd8418d4da0c00a, type: 3}
 --- !u!1 &424768104
 GameObject:
   m_ObjectHideFlags: 0

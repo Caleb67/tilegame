@@ -24,6 +24,7 @@ public class CreateNewSave : MonoBehaviour {
         newData.saveSeed = seed;
         newData.inventory.capacityUnits = this.initialInventoryCapacity;
         newData.chunks.Add(new ChunkData(this.spawnChunkPrefab, Vector3Int.zero));
+        newData.playerPositon = new Vector2(4f, 4f);
 
         LevelData.Save(newSaveName, newData);
 
