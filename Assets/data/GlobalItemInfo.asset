@@ -91,3 +91,8 @@ MonoBehaviour:
       items:
       - id: 5
         count: 2
+  - key: 4
+    value:
+      items:
+      - id: 3
+        count: 1
