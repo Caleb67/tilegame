@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using static System.Linq.Enumerable;
-using TreeEditor;
 using UnityEngine;
 using System;
 using System.IO;
@@ -11,7 +10,7 @@ public class TerrainGenerator : MonoBehaviour
 {
 
     [Header("Noise")]
-    [SerializeField] int seed;
+    
     [SerializeField] float scaleX;
     [SerializeField] float scaleY;
 
@@ -59,6 +58,8 @@ public class TerrainGenerator : MonoBehaviour
     float varianceOffsetX;
     float varianceOffsetY;
 
+    int seed;
+
     bool shouldSave = false;
     public void SetShouldSave() {
         this.shouldSave = true;
@@ -66,6 +67,7 @@ public class TerrainGenerator : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
+        this.seed = this.playerData.saveSeed;
         System.Random random = new(this.seed);
         this.offsetX = (float) random.NextDouble() * 10_000f;
         this.offsetY = (float) random.NextDouble() * 10_000f;
@@ -160,7 +162,7 @@ public class TerrainGenerator : MonoBehaviour
     }
 
     Chunk LoadFromFile(Vector3Int chunkPos) {
-        var data = LevelData.LoadFromFile(this.playerData.saveName);
+        var data = LevelData.LoadFromFile(this.playerData.savePath);
 
         Chunk chunkOut = null;
         
@@ -179,7 +181,7 @@ public class TerrainGenerator : MonoBehaviour
     }
     
     void WriteToFile(Chunk chunk, Vector3Int chunkPos) {
-        var data = LevelData.LoadFromFile(this.playerData.saveName);
+        var data = LevelData.LoadFromFile(this.playerData.savePath);
         if (data == null) data = new LevelData();
 
         var foregroundData = chunk.GetAllTileData(false);
@@ -190,6 +192,6 @@ public class TerrainGenerator : MonoBehaviour
         );
         data.chunks.Add(new ChunkData(chunk, chunkPos));
 
-        LevelData.Save(this.playerData.saveName, data);
+        LevelData.Save(this.playerData.savePath, data);
     }
 }

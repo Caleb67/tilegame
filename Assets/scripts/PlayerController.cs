@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     
     [Header("Data")]
     [SerializeField] UIManager uiManager;
+    [SerializeField] PlayerData playerData;
 
     Rigidbody2D body;
     PlaceTile cursor;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
     void Start() {
         this.curMoveSpeed = this.landMoveSpeed;
+        this.transform.position = this.playerData.playerStartPos;
         this.body = GetComponent<Rigidbody2D>();
         this.cursor = FindObjectOfType<PlaceTile>();
     }

@@ -9,28 +9,25 @@ using UnityEngine;
 [Serializable]
 public class LevelData {
     public List<ChunkData> chunks = new();
-    public Inventory inventory;
+    public Inventory inventory = new();
+    public Vector2 playerPositon = new();
+    public String saveName = "";
+    public int saveSeed;
 
     public static LevelData LoadFromFile(String saveName) {
-        var filePath = Path.Combine(Files.savesPath, $"{saveName}.json");
-        if (!File.Exists(filePath)) {
-            Directory.CreateDirectory(Files.savesPath);
-            using var newSaveFile = File.Create(filePath);
-            using var writer = new StreamWriter(newSaveFile, Encoding.UTF8);
-            writer.Write("{}");
-        }
+        var filePath = Files.GetOrCreatePath($"{saveName}.json");
+        
         var json = File.ReadAllText(filePath);
         
         return JsonUtility.FromJson<LevelData>(json);
     }
 
     public static void Save(String saveName, LevelData data) {
-        var jsonOut = JsonUtility.ToJson(data);
         var filePath = Path.Combine(Files.savesPath, $"{saveName}.json");
-        if (!File.Exists(filePath)) {
-            Directory.CreateDirectory(Files.savesPath);
-            using var newSaveFile = File.Create(filePath);
-        }
+        filePath = Files.GetOrCreatePath(filePath);
+        
+        var jsonOut = JsonUtility.ToJson(data);
+
         File.WriteAllText(filePath, jsonOut);
     }
 }

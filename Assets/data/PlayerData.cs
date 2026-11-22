@@ -10,7 +10,9 @@ public class PlayerData : ScriptableObject
         get; private set;
     }
 
-    public String saveName = "dev_save";
+    public String savePath = "dev_save";
+    public Vector2 playerStartPos = new();
+    public int saveSeed = 10;
 
     [field: Space(10)]
     [field: SerializeField]

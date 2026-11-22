@@ -87,13 +87,13 @@ public class Inventory {
     }
 
     public void Save() {
-        var data = LevelData.LoadFromFile(this.playerData.saveName);
+        var data = LevelData.LoadFromFile(this.playerData.savePath);
         data.inventory = this;
-        LevelData.Save(this.playerData.saveName, data);
+        LevelData.Save(this.playerData.savePath, data);
     }
 
     public void LoadFromFile() {
-        var data = LevelData.LoadFromFile(this.playerData.saveName);
+        var data = LevelData.LoadFromFile(this.playerData.savePath);
         ReplaceWith(data.inventory);
         if (this.capacityUnits == 0) {
             this.capacityUnits = this.playerData.baseInventoryCapacity;    

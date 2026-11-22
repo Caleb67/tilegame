@@ -13,19 +13,22 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   <baseInventoryCapacity>k__BackingField: 1024
-  saveName: dev_save
+  savePath: dev_save
+  saveSeed: 0
   <inventory>k__BackingField:
     <capacityUnits>k__BackingField: 1024
-    <occupiedUnits>k__BackingField: 352
+    <occupiedUnits>k__BackingField: 446
     contents:
     - id: 0
       count: 128
     - id: 3
-      count: 69
+      count: 89
     - id: 2
-      count: 13
-    - id: 1
-      count: 6
+      count: 47
     - id: 4
       count: 2
+    - id: 1
+      count: 18
+    - id: 5
+      count: 16
     playerData: {fileID: 11400000}
