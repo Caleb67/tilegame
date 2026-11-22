@@ -1,17 +1,39 @@
+
+
+#
+# Code Style Rules
+#
+
+# property over getter 
+#   {a.prop} over {a.GetProp()}
 [*.{cs,vb}]
-dotnet_style_qualification_for_property = true
+dotnet_diagnostic.CA1024.severity = warning
+dotnet_code_quality.CA1024.api_surface = all
 
+# null propogation: 
+#   {x?.y} over {x == null ? null : x.y}
 [*.{cs,vb}]
-dotnet_style_qualification_for_field = true
+dotnet_diagnostic.IDE0031.severity = warning
+
+# qualify 'this' for member access: 
+#   {this.y} over {y}
+[*.{cs,vb}]
+dotnet_diagnostic.IDE0009.severity = warning
+dotnet_style_qualification_for_field = true:warning
+dotnet_style_qualification_for_property = true:warning
+dotnet_style_qualification_for_event = true:warning
 
 
+#
+# Naming Rules
+#
 
+# public properties use camelCase
+#   {x.prop} over {x.Prop}
+[*.{cs,vb}]
 dotnet_naming_symbols.properties.applicable_kinds = property
-
-
 dotnet_naming_style.camel_case_style.capitalization = camel_case
-
-
 dotnet_naming_rule.ignore_public_properties.symbols = properties
 dotnet_naming_rule.ignore_public_properties.style = camel_case_style
 dotnet_naming_rule.ignore_public_properties.severity = suggestion
+

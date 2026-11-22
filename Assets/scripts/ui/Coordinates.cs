@@ -7,6 +7,6 @@ public class Coordinates : MonoBehaviour
     [SerializeField] TextMeshProUGUI coordinateDisplay;
     void Update() {
         this.coordinateDisplay.text = 
-            $"({(int)player.position.x},{(int)player.position.y})";
+            $"({(int)this.player.position.x},{(int)this.player.position.y})";
     }
 }

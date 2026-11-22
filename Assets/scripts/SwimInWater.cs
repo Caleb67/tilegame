@@ -21,7 +21,7 @@ public class SwimInWater : MonoBehaviour
             var mask = Instantiate(this.waterEffectsMaskPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             mask.maskSource = SpriteMask.MaskSource.Sprite;
             mask.gameObject.SetActive(false);
-            spriteMasks[idx] = mask;
+            this.spriteMasks[idx] = mask;
         }
     }
 

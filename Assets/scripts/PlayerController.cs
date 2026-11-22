@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     void CursorAndCameraBehavior()
     {
         var scroll = Input.mouseScrollDelta;
-        var sizeDifference = scroll.y * zoomSpeed;
+        var sizeDifference = scroll.y * this.zoomSpeed;
         
         if (Input.GetKey(this.placeTile)) this.cursor.PutTile();
         if (Input.GetKey(this.eraseTile)) this.cursor.EraseTile();

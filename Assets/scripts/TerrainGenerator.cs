@@ -115,12 +115,12 @@ public class TerrainGenerator : MonoBehaviour
     Vector3Int[] GetPositionsToLoad(Vector3Int center) {
         
         var bottomLeft = new Vector3Int(
-            center.x - chunkLoadRadius,
-            center.y - chunkLoadRadius
+            center.x - this.chunkLoadRadius,
+            center.y - this.chunkLoadRadius
         );
         var topRight = new Vector3Int(
-            center.x + chunkLoadRadius,
-            center.y + chunkLoadRadius
+            center.x + this.chunkLoadRadius,
+            center.y + this.chunkLoadRadius
         );
         
         var all = from x in Range(bottomLeft.x, topRight.x - bottomLeft.x)
