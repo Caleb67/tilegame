@@ -19,6 +19,10 @@ or</br>
 **I** - Toggle inventory menu</br>
 **B** - Toggle tile selection menu
 
+**F** - Run manual save</br>
+<sub>the game will automatically save chunks as they're unloaded</sub></br>
+<sub>the game will also run a save when quit</sub>
+
 #### what da mouse buttons do?
 **Primary-Click** - Place tile</br>
 **Secondary-Click** - Destroy tile</br>
