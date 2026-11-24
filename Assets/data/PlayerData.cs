@@ -13,10 +13,23 @@ public class PlayerData : ScriptableObject
     public String savePath = "dev_save";
     public Vector2 playerStartPos = new();
     public int saveSeed = 10;
+    public bool isSandboxMode;
 
     [field: Space(10)]
     [field: SerializeField]
     public Inventory inventory {
         get; private set;
     }
+
+    public static PlayerData s_instance {
+        get; private set;
+    }
+
+    void Awake() {
+        if (s_instance == null) {
+            s_instance = this;
+        }
+    }
+
+
 }

@@ -126,6 +126,8 @@ public class PlaceTile : MonoBehaviour
     }
 
     bool AttemptSpendResourcesForTile(Inventory testInventory, int tileToPlaceIdx) {
+        if (this.playerData.isSandboxMode) return true;
+
         var TILE_ITEM_CONTENTS = this.globalItemInfo.tileItemContents;
         
         var newTileIdx = tileToPlaceIdx;
@@ -146,6 +148,8 @@ public class PlaceTile : MonoBehaviour
     }
 
     bool AttemptObtainResourcesFromTile(Inventory testInventory, Tile tileToRemove) {
+        if (this.playerData.isSandboxMode) return true;
+        
         var TILE_ITEM_CONTENTS = this.globalItemInfo.tileItemContents;
 
         var originalTileIdx = this.globalTileInfo.tiles.IndexOf(tileToRemove);

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84b44c59c4d4724ea31ff7d686b0a0f, type: 3}
   m_Name: MudTileBehaviour
   m_EditorClassIdentifier: Assembly-CSharp::MudTileBehaviour
-  idOfClayTile: 0
-  idOfSandTile: 0
+  idOfClayTile: 16
+  idOfSandTile: 6

@@ -2,10 +2,12 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CreateNewSave : MonoBehaviour {
     [SerializeField] TMP_InputField saveNameInputField;
     [SerializeField] TMP_InputField seedInputField;
+    [SerializeField] Toggle sandboxModeToggle;
 
     [SerializeField] uint initialInventoryCapacity;
     [SerializeField] Chunk spawnChunkPrefab;
@@ -23,6 +25,7 @@ public class CreateNewSave : MonoBehaviour {
         newData.inventory.capacityUnits = this.initialInventoryCapacity;
         newData.chunks.Add(new ChunkData(this.spawnChunkPrefab, Vector3Int.zero));
         newData.playerPositon = new Vector2(4f, 4f);
+        newData.isSandboxMode = this.sandboxModeToggle.isOn;
 
         LevelData.Save(newSaveName, newData);
 

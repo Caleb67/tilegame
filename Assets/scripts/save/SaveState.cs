@@ -28,6 +28,7 @@ public class SaveState : MonoBehaviour {
         data.saveName = this.playerData.savePath;
         data.saveSeed = this.playerData.saveSeed;
         data.playerPositon = this.player.position;
+        data.isSandboxMode = this.playerData.isSandboxMode;
         LevelData.Save(this.playerData.savePath, data);
     }
 }

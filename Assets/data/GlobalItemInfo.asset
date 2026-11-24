@@ -115,3 +115,23 @@ MonoBehaviour:
       items:
       - id: 7
         count: 2
+  - key: 18
+    value:
+      items:
+      - id: 7
+        count: 1
+  - key: 19
+    value:
+      items:
+      - id: 7
+        count: 2
+  - key: 20
+    value:
+      items:
+      - id: 7
+        count: 1
+  - key: 21
+    value:
+      items:
+      - id: 7
+        count: 2

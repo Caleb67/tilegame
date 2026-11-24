@@ -31,10 +31,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eb7ae4aeaa8b11244b7cb8acfc0b3357, type: 2}
   - {fileID: 11400000, guid: f4d72bad23ddcdd4cb849aa1b35ede8b, type: 2}
   - {fileID: 11400000, guid: 487615943b4318a429ce2dbb7a8856a6, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 035bc14c0aec88e49bd045051a28167a, type: 2}
+  - {fileID: 11400000, guid: b35cb08c796fbfc409535bb752abe7ed, type: 2}
+  - {fileID: 11400000, guid: 0e7d6b2bce3129e41ba31a9c5c9cec8d, type: 2}
+  - {fileID: 11400000, guid: 4334418e4bc443e4a8fc0d39b5803037, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -272,7 +272,7 @@ MonoBehaviour:
   backgroundEmptyID: 32
   foregroundEmptyID: 0
   <placeablesStartID>k__BackingField: 1
-  <placeablesEndID>k__BackingField: 17
+  <placeablesEndID>k__BackingField: 21
   tileNames:
   - key: 1
     value: GRAY BRICKS
@@ -310,6 +310,16 @@ MonoBehaviour:
     value: CLAY
   - key: 17
     value: CLAY BRICKS
+  - key: 18
+    value: CLAY 2
+  - key: 19
+    value: CLAY 2 BRICKS
+  - key: 20
+    value: CLAY 3
+  - key: 21
+    value: CLAY 3 BRICKS
   tileBehaviours:
   - key: 4
     value: {fileID: 11400000, guid: ad0d0bfab0e18dc4bb57fb4f48ca8117, type: 2}
+  - key: 15
+    value: {fileID: 11400000, guid: 0990ff5cd81c815489edfe50e59b5ea1, type: 2}

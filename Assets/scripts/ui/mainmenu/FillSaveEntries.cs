@@ -22,11 +22,13 @@ public class FillSaveEntries : MonoBehaviour
             var seed = levelData.saveSeed;
             var playerStartPos = levelData.playerPositon;
             var saveEntry = Instantiate(this.saveEntryPrefab, this.saveListPanel);
+            var isSandboxMode = levelData.isSandboxMode;
 
             var saveEntryName = saveEntry.GetComponentInChildren<SaveEntryName>();
             saveEntryName.savePath = relativeSaveFilePath;
             saveEntryName.saveSeed = seed;
             saveEntryName.playerStartPos = playerStartPos;
+            saveEntryName.isSandboxMode = isSandboxMode;
 
             var saveEntryNameField = saveEntryName.GetComponent<TextMeshProUGUI>();
             
@@ -34,7 +36,9 @@ public class FillSaveEntries : MonoBehaviour
             var saveEntrySeedField = saveEntrySeed.GetComponent<TextMeshProUGUI>();
             Debug.Log(name);
             saveEntryNameField.text = name.Replace("_", " ").ToUpper();
-            saveEntrySeedField.text = $"SEED ({seed})";
+
+            var sandboxModeIcon = isSandboxMode ? "S. " : "";
+            saveEntrySeedField.text = $"{sandboxModeIcon}SEED ({seed})";
 
         }
     }

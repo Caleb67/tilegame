@@ -65,7 +65,7 @@ public class GlobalTileInfo : ScriptableObject {
         foreach (var relativePos in positions) {
             var success = chunkManager.TryGetTileLocation(
                 location.positionInWorld + relativePos, 
-                isBackground:true,
+                location.isBackground,
                 out var neighbourLocation
             );
             if (!success) continue;

@@ -16,6 +16,7 @@ MonoBehaviour:
   savePath: dev_save2
   playerStartPos: {x: 0, y: 0}
   saveSeed: 10
+  isSandboxMode: 1
   <inventory>k__BackingField:
     <capacityUnits>k__BackingField: 1024
     <occupiedUnits>k__BackingField: 0

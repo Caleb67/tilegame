@@ -13,6 +13,7 @@ public class LevelData {
     public Vector2 playerPositon = new();
     public String saveName = "";
     public int saveSeed;
+    public bool isSandboxMode = false;
 
     public static LevelData LoadFromFile(String saveName) {
         var filePath = Files.GetOrCreatePath($"{saveName}.json");

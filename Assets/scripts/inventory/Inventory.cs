@@ -16,9 +16,6 @@ public class Inventory {
     }
     public List<Item> contents = new();
 
-    [Header("Data")]
-    [SerializeField] PlayerData playerData;
-
     public bool CanFit(uint units) {
         return 
         this.occupiedUnits + units
@@ -87,16 +84,19 @@ public class Inventory {
     }
 
     public void Save() {
-        var data = LevelData.LoadFromFile(this.playerData.savePath);
+        var savePath = PlayerData.s_instance.savePath;
+        var data = LevelData.LoadFromFile(savePath);
         data.inventory = this;
-        LevelData.Save(this.playerData.savePath, data);
+        LevelData.Save(savePath, data);
     }
 
     public void LoadFromFile() {
-        var data = LevelData.LoadFromFile(this.playerData.savePath);
+        var savePath = PlayerData.s_instance.savePath;
+        var baseInventoryCapacity = PlayerData.s_instance.baseInventoryCapacity;
+        var data = LevelData.LoadFromFile(savePath);
         ReplaceWith(data.inventory);
         if (this.capacityUnits == 0) {
-            this.capacityUnits = this.playerData.baseInventoryCapacity;    
+            this.capacityUnits = baseInventoryCapacity;    
         }
     }
 }
