@@ -28,6 +28,7 @@ public class PlaceTile : MonoBehaviour
 
     public bool isBackground = false;
     TileLocation lastPlacedLocation = default;
+    int lastPlacedTileId = -1;
 
     int index;
     ChunkManager chunkManager;
@@ -86,6 +87,7 @@ public class PlaceTile : MonoBehaviour
             var testInventory = this.playerData.inventory.Clone();
             if (!AttemptObtainResourcesFromTile(testInventory, tileAtPos)) return;
             if (!chunk.TryPutTile(mouseWorldPos, null, this.isBackground, propogatesUpdates:true)) return;
+            this.lastPlacedLocation = default;
             this.playerData.inventory.ReplaceWith(testInventory);   
         }
     }
@@ -181,9 +183,13 @@ public class PlaceTile : MonoBehaviour
             out var location
         );
         if (!success) return false;
-        if (location.IsSameLocation(this.lastPlacedLocation)) return false;
+        if (
+            location.IsSameLocation(this.lastPlacedLocation) &&
+            this.index == this.lastPlacedTileId
+        ) return false;
         else {
             this.lastPlacedLocation = location;
+            this.lastPlacedTileId = this.index;
             return chunk.TryPutTile(worldPos, toPut, isBackground, propogatesUpdates);
         }
     }
