@@ -28,7 +28,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3d69c1a0713ce547b428ed9f87db69d, type: 2}
   - {fileID: 11400000, guid: 8730ecdae565dd243a85e8b12909c9d5, type: 2}
   - {fileID: 11400000, guid: cf2c6fc3ab0487e4d98cfeb6abf7559c, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: eb7ae4aeaa8b11244b7cb8acfc0b3357, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -272,7 +272,7 @@ MonoBehaviour:
   backgroundEmptyID: 32
   foregroundEmptyID: 0
   <placeablesStartID>k__BackingField: 1
-  <placeablesEndID>k__BackingField: 14
+  <placeablesEndID>k__BackingField: 15
   tileNames:
   - key: 1
     value: GRAY BRICKS
@@ -304,3 +304,8 @@ MonoBehaviour:
     value: WOOD TRUNK
   - key: 14
     value: BUSH
+  - key: 15
+    value: MUD
+  tileBehaviours:
+  - key: 4
+    value: {fileID: 11400000, guid: ad0d0bfab0e18dc4bb57fb4f48ca8117, type: 2}

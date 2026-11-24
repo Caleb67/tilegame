@@ -600,6 +600,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 5937052977168002127}
+    - target: {fileID: 282079782888654310, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: saveOnExit
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1702864080346375820, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
       propertyPath: camera
       value: 

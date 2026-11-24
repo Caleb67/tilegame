@@ -27,6 +27,7 @@ public class PlaceTile : MonoBehaviour
     [SerializeField] GlobalItemInfo globalItemInfo;
 
     public bool isBackground = false;
+    TileLocation lastPlacedLocation = default;
 
     int index;
     ChunkManager chunkManager;
@@ -69,7 +70,8 @@ public class PlaceTile : MonoBehaviour
             if (!AttemptSpendResourcesForTile(testInventory, this.index)) return;
             if (!AttemptObtainResourcesFromTile(testInventory, originalTile)) return;
             
-            if (!chunk.TryPutTile(mouseWorldPos, tileToPut, this.isBackground)) return;
+            if (!_TryPutTile(chunk, mouseWorldPos, tileToPut, this.isBackground, propogatesUpdates:true)) return;
+            
             this.playerData.inventory.ReplaceWith(testInventory);
         }
         
@@ -83,7 +85,7 @@ public class PlaceTile : MonoBehaviour
             var tileAtPos = chunk.GetTile(mouseWorldPos, this.isBackground);
             var testInventory = this.playerData.inventory.Clone();
             if (!AttemptObtainResourcesFromTile(testInventory, tileAtPos)) return;
-            if (!chunk.TryPutTile(mouseWorldPos, null, this.isBackground)) return;
+            if (!chunk.TryPutTile(mouseWorldPos, null, this.isBackground, propogatesUpdates:true)) return;
             this.playerData.inventory.ReplaceWith(testInventory);   
         }
     }
@@ -167,5 +169,22 @@ public class PlaceTile : MonoBehaviour
         var mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = 0 - Camera.main.transform.position.z;
         return Camera.main.ScreenToWorldPoint(mouseScreenPos);
+    }
+
+    bool _TryPutTile(
+        Chunk chunk,
+        Vector3 worldPos, Tile toPut, bool isBackground, bool propogatesUpdates = false
+    ) {
+        var success = chunk.TryGetTileLocation(
+            worldPos, 
+            isBackground, 
+            out var location
+        );
+        if (!success) return false;
+        if (location.IsSameLocation(this.lastPlacedLocation)) return false;
+        else {
+            this.lastPlacedLocation = location;
+            return chunk.TryPutTile(worldPos, toPut, isBackground, propogatesUpdates);
+        }
     }
 }

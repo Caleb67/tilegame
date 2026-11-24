@@ -25,6 +25,8 @@ MonoBehaviour:
     name: Cloth
   - sizeUnits: 1
     name: Plant
+  - sizeUnits: 1
+    name: Mud
   tileItemContents:
   - key: 1
     value:
@@ -95,4 +97,9 @@ MonoBehaviour:
     value:
       items:
       - id: 3
+        count: 1
+  - key: 15
+    value:
+      items:
+      - id: 6
         count: 1

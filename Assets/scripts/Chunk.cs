@@ -11,9 +11,12 @@ public class Chunk : MonoBehaviour
     [SerializeField] Tilemap backgroundTiles;
     [SerializeField] Tilemap foregroundTiles;
     public GlobalTileInfo globalTileInfo;
+    public GlobalItemInfo globalItemInfo;
 
     bool dirty = false;
     bool modified = false;
+
+    ChunkManager chunkManager;
 
     public void MarkClean() {
         this.dirty = false;
@@ -54,15 +57,19 @@ public class Chunk : MonoBehaviour
         }
         this.dirty = true;
     }
-
+    void Start() {
+        this.chunkManager = FindObjectOfType<ChunkManager>();
+    }
 
     public const int CHUNK_SIZE = 8;
-    public bool TryPutTile(Vector3 worldPos, Tile toPut, bool isBackground) {
+    public bool TryPutTile(Vector3 worldPos, Tile toPut, bool isBackground, bool propogatesUpdates = false) {
         var tilemap = isBackground
             ? this.backgroundTiles
             : this.foregroundTiles;        
 
         var tilePos = tilemap.WorldToCell(worldPos);
+        var tileLocation = new TileLocation(this,tilePos,worldPos,isBackground);
+        var originalTile = tileLocation.Resolve();
 
         if (tilePos.x is < 0 or >= CHUNK_SIZE) return false;
         if (tilePos.y is < 0 or >= CHUNK_SIZE) return false;
@@ -74,10 +81,26 @@ public class Chunk : MonoBehaviour
 
             toPut = this.globalTileInfo.tiles[emptyId];
         }
-        tilemap.SetTile(tilePos, toPut);
 
+        tilemap.SetTile(tilePos, toPut);
         SetModified();
 
+        this.globalTileInfo.PerformOnPlace(
+            tileLocation, toPut, this.chunkManager, this.globalItemInfo
+        );
+        
+        this.globalTileInfo.PerformOnDestroy(
+            tileLocation, originalTile, this.chunkManager, this.globalItemInfo
+        );
+
+        
+
+        if (propogatesUpdates){
+            this.globalTileInfo.UpdateNeighbours(
+                tileLocation, toPut, this.chunkManager, this.globalItemInfo
+            );
+        }
+        
         return true;
     }
 

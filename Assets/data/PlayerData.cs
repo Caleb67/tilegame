@@ -19,6 +19,4 @@ public class PlayerData : ScriptableObject
     public Inventory inventory {
         get; private set;
     }
-
-    
 }

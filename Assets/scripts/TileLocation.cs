@@ -18,4 +18,15 @@ public struct TileLocation {
     public Tile Resolve() {
         return this.chunk.GetTile(this.positionInChunk, this.isBackground);
     }
+
+    public bool TryPut(Tile tile, bool propogatesUpdates = false) {
+        return this.chunk.TryPutTile(this.positionInWorld, tile, this.isBackground);
+    }
+
+    public bool IsSameLocation(TileLocation other) {
+        return (
+            other.chunk == this.chunk &&
+            other.positionInChunk == this.positionInChunk
+        );
+    }
 }
