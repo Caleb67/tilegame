@@ -27,6 +27,8 @@ MonoBehaviour:
     name: Plant
   - sizeUnits: 1
     name: Mud
+  - sizeUnits: 1
+    name: Clay
   tileItemContents:
   - key: 1
     value:
@@ -103,3 +105,13 @@ MonoBehaviour:
       items:
       - id: 6
         count: 1
+  - key: 16
+    value:
+      items:
+      - id: 7
+        count: 1
+  - key: 17
+    value:
+      items:
+      - id: 7
+        count: 2
