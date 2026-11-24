@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 7236399585477361351}
   - component: {fileID: 2076942428446061686}
   - component: {fileID: 1034097601552901329}
+  - component: {fileID: 7986935220451397376}
   m_Layer: 5
   m_Name: Tile Entry
   m_TagString: Untagged
@@ -298,6 +299,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87659772afbc1ac409604c3a52505f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileSelection
+--- !u!114 &7986935220451397376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3663866216704359542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 507a3147133dd9c468cbe114e6c61347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TileEntryTag
 --- !u!1 &5767913725729993826
 GameObject:
   m_ObjectHideFlags: 0
