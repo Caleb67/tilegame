@@ -7,15 +7,11 @@ public class MudTileBehaviour : TileBehaviour
 {
     [SerializeField] int idOfClayTile;
     [SerializeField] int idOfSandTile;
-    public override void OnPlaced(
-        TileLocation tileLocation, ChunkManager chunkManager
-    ) {
+    public override void OnPlaced(TileLocation tileLocation, ChunkManager chunkManager) {
         OnUpdated(tileLocation, chunkManager);
     }
 
-    public override void OnUpdated(
-        TileLocation tileLocation, ChunkManager chunkManager
-    ) {
+    public override void OnUpdated(TileLocation tileLocation, ChunkManager chunkManager) {
 
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 

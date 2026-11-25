@@ -68,11 +68,8 @@ public class BushTileBehaviour : TileBehaviour
     }
 
     System.Random random = new();
-    bool ShouldSpread()
-        => this.random.NextDouble() < this.spreadChanceEachRandomTick;
+    bool ShouldSpread() => this.random.NextDouble() < this.spreadChanceEachRandomTick;
 
-    bool ShouldConsumeAsh()
-        => this.random.NextDouble() < this.ashConsumptionChanceOnSpread;
-    bool ShouldGrowWoodInstead()
-        => this.random.NextDouble() < this.woodChance;
+    bool ShouldConsumeAsh() => this.random.NextDouble() < this.ashConsumptionChanceOnSpread;
+    bool ShouldGrowWoodInstead() => this.random.NextDouble() < this.woodChance;
 }

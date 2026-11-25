@@ -20,9 +20,7 @@ public class FireTileBehaviour : TileBehaviour
     List<TileLocation> activeFires = new();
 
     readonly System.Random random = new();
-    public override void OnPlaced(
-        TileLocation tileLocation, ChunkManager chunkManager
-    ) {
+    public override void OnPlaced(TileLocation tileLocation, ChunkManager chunkManager) {
         this.activeFires.Add(tileLocation);
 
         var success = chunkManager.TryGetTileLocation(
@@ -42,9 +40,7 @@ public class FireTileBehaviour : TileBehaviour
         }
     }
 
-    void TickFire(
-        TileLocation tileLocation, ChunkManager chunkManager
-    ) {
+    void TickFire(TileLocation tileLocation, ChunkManager chunkManager) {
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 
             Vector3Int.left, Vector3Int.right

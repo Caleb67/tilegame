@@ -6,15 +6,11 @@ using UnityEngine;
 public class DirtTileBehaviour : TileBehaviour
 {
     [SerializeField] int indexOfMudTile;
-    public override void OnPlaced(
-        TileLocation tileLocation, ChunkManager chunkManager
-    ) {
+    public override void OnPlaced(TileLocation tileLocation, ChunkManager chunkManager) {
         OnUpdated(tileLocation, chunkManager);
     }
 
-    public override void OnUpdated(
-        TileLocation tileLocation, ChunkManager chunkManager
-    ) {
+    public override void OnUpdated(TileLocation tileLocation, ChunkManager chunkManager) {
         if (!tileLocation.isBackground) return;
 
         var positions = new[]{

@@ -76,18 +76,16 @@ public class Chunk : MonoBehaviour
         SetModified();
 
         this.globalTileInfo.PerformOnPlace(
-            tileLocation, toPut, this.chunkManager, this.globalItemInfo
+            tileLocation, toPut, this.chunkManager
         );
         
         this.globalTileInfo.PerformOnDestroy(
-            tileLocation, originalTile, this.chunkManager, this.globalItemInfo
+            tileLocation, originalTile, this.chunkManager
         );
-
         
-
         if (propogatesUpdates){
             this.globalTileInfo.UpdateNeighbours(
-                tileLocation, toPut, this.chunkManager, this.globalItemInfo
+                tileLocation, this.chunkManager
             );
         }
         

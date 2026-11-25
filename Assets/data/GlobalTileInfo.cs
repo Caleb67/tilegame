@@ -30,10 +30,7 @@ public class GlobalTileInfo : ScriptableObject {
         get; private set;
     }
 
-    public void PerformOnPlace(
-        TileLocation location, TileBase toPut,
-        ChunkManager chunkManager, GlobalItemInfo globalItemInfo
-    ) {
+    public void PerformOnPlace(TileLocation location, TileBase toPut, ChunkManager chunkManager) {
         var toPutId = this.tiles.IndexOf(toPut);
         if (toPutId == -1) return;
         if (this.tileBehaviours.ContainsKey(toPutId)) {
@@ -43,10 +40,7 @@ public class GlobalTileInfo : ScriptableObject {
             );
         }
     }
-    public void PerformOnDestroy(
-        TileLocation location, TileBase toDestroy,
-        ChunkManager chunkManager, GlobalItemInfo globalItemInfo
-    ) {
+    public void PerformOnDestroy(TileLocation location, TileBase toDestroy, ChunkManager chunkManager) {
         var toDestroyId = this.tiles.IndexOf(toDestroy);
         if (toDestroyId == -1) return;
         if (this.tileBehaviours.ContainsKey(toDestroyId)) {
@@ -56,11 +50,7 @@ public class GlobalTileInfo : ScriptableObject {
             );
         }
     }
-
-    public void PerformOnRandomlyTick(
-        TileLocation location, TileBase toDestroy,
-        ChunkManager chunkManager
-    )
+    public void PerformOnRandomlyTick(TileLocation location, TileBase toDestroy, ChunkManager chunkManager)
     {
         var toTickId = this.tiles.IndexOf(toDestroy);
         if (toTickId == -1) return;
@@ -72,11 +62,7 @@ public class GlobalTileInfo : ScriptableObject {
             );
         }
     }
-
-    public void UpdateNeighbours(
-        TileLocation location, TileBase toDestroy,
-        ChunkManager chunkManager, GlobalItemInfo globalItemInfo
-    ) {
+    public void UpdateNeighbours(TileLocation location, ChunkManager chunkManager) {
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 
             Vector3Int.left, Vector3Int.right
