@@ -57,7 +57,7 @@ public class Chunk : MonoBehaviour
         }
         this.dirty = true;
     }
-    void Start() {
+    void Awake() {
         this.chunkManager = FindObjectOfType<ChunkManager>();
     }
 

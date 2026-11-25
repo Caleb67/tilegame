@@ -861,6 +861,7 @@ MonoBehaviour:
   backgroundTiles: {fileID: 7391208997319871161}
   foregroundTiles: {fileID: 1539695955040800518}
   globalTileInfo: {fileID: 11400000, guid: 88a689ffcaa4d22458fb14296d6f395c, type: 2}
+  globalItemInfo: {fileID: 0}
 --- !u!1 &7422046506958148044
 GameObject:
   m_ObjectHideFlags: 0

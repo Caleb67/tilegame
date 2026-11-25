@@ -1623,6 +1623,7 @@ MonoBehaviour:
   backgroundTiles: {fileID: 5784671157608334797}
   foregroundTiles: {fileID: 4600232055910966846}
   globalTileInfo: {fileID: 11400000, guid: 88a689ffcaa4d22458fb14296d6f395c, type: 2}
+  globalItemInfo: {fileID: 0}
 --- !u!1 &7451469138688925416
 GameObject:
   m_ObjectHideFlags: 0
