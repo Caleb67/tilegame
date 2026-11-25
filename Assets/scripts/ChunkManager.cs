@@ -3,6 +3,7 @@
 using static System.Linq.Enumerable;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class ChunkManager : MonoBehaviour {
     [SerializeField] List<TileBehaviour> behavioursToTick;
@@ -61,6 +62,13 @@ public class ChunkManager : MonoBehaviour {
         foreach (var behaviour in this.behavioursToTick)
         {
             StartCoroutine(behaviour.Ticker());
+        }
+    }
+
+    public void CleanTickers() {
+        foreach (var behaviour in this.behavioursToTick) {
+            StopCoroutine(behaviour.Ticker());
+            behaviour.QuitTicking();
         }
     }
 }

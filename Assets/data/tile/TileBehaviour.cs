@@ -17,4 +17,6 @@ public class TileBehaviour : ScriptableObject
         GlobalTileInfo globalTileInfo, GlobalItemInfo globalItemInfo) {}
 
     public virtual IEnumerator Ticker() { return null; }
+
+    public virtual void QuitTicking() {}
 }

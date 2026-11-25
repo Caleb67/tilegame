@@ -20,6 +20,7 @@ public class SaveState : MonoBehaviour {
     }
 
     void OnApplicationQuit() {
+        FindObjectOfType<ChunkManager>().CleanTickers();
         if (this.saveOnExit) RunSave();
         this.terrainGenerator.Tick();
     }

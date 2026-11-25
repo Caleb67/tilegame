@@ -103,4 +103,12 @@ public class FireTileBehaviour : TileBehaviour
             yield return new WaitForSeconds(this.fireTickDelay);
         }
     }
+
+    public override void QuitTicking()
+    {
+        var toTick = this.activeFires.ToList();
+        foreach (var fireLocation in toTick) {
+            fireLocation.TryPut(null);
+        }
+    }
 }
