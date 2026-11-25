@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,11 +16,15 @@ public struct TileLocation {
         this.isBackground = isBackground;
     }
 
-    public Tile Resolve() {
-        return this.chunk.GetTile(this.positionInChunk, this.isBackground);
+    public TileBase Resolve() {
+        try {
+            return this.chunk.GetTile(this.positionInChunk, this.isBackground);    
+        } catch (NullReferenceException) {
+            return null;
+        }
     }
 
-    public bool TryPut(Tile tile, bool propogatesUpdates = false) {
+    public bool TryPut(TileBase tile, bool propogatesUpdates = false) {
         return this.chunk.TryPutTile(this.positionInWorld, tile, this.isBackground);
     }
 

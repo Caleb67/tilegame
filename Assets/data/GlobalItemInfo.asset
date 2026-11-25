@@ -29,6 +29,8 @@ MonoBehaviour:
     name: Mud
   - sizeUnits: 1
     name: Clay
+  - sizeUnits: 1
+    name: Ash
   tileItemContents:
   - key: 1
     value:
@@ -135,3 +137,11 @@ MonoBehaviour:
       items:
       - id: 7
         count: 2
+  - key: 22
+    value:
+      items: []
+  - key: 23
+    value:
+      items:
+      - id: 8
+        count: 1

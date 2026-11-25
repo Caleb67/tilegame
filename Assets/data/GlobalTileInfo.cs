@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "GlobalTileInfo", menuName = "Scriptable Objects/GlobalTileInfo")]
 public class GlobalTileInfo : ScriptableObject {
-    public List<Tile> tiles = new(256);
+    public List<TileBase> tiles = new(256);
     public byte backgroundEmptyID;
     public byte foregroundEmptyID;
 
@@ -23,9 +24,14 @@ public class GlobalTileInfo : ScriptableObject {
     [SerializeField] public Dictionary<byte, String> tileNames = new();
 
     [SerializeField] public Dictionary<int, TileBehaviour> tileBehaviours = new();
+    [SerializeField] public List<int> foregroundExclusiveTiles;
+
+    public static GlobalTileInfo s_instance {
+        get; private set;
+    }
 
     public void PerformOnPlace(
-        TileLocation location, Tile toPut,
+        TileLocation location, TileBase toPut,
         ChunkManager chunkManager, GlobalItemInfo globalItemInfo
     ) {
         var toPutId = this.tiles.IndexOf(toPut);
@@ -39,7 +45,7 @@ public class GlobalTileInfo : ScriptableObject {
         }
     }
     public void PerformOnDestroy(
-        TileLocation location, Tile toDestroy,
+        TileLocation location, TileBase toDestroy,
         ChunkManager chunkManager, GlobalItemInfo globalItemInfo
     ) {
         var toDestroyId = this.tiles.IndexOf(toDestroy);
@@ -54,7 +60,7 @@ public class GlobalTileInfo : ScriptableObject {
     }
 
     public void UpdateNeighbours(
-        TileLocation location, Tile toDestroy,
+        TileLocation location, TileBase toDestroy,
         ChunkManager chunkManager, GlobalItemInfo globalItemInfo
     ) {
         var positions = new[]{
@@ -79,6 +85,22 @@ public class GlobalTileInfo : ScriptableObject {
                     this, globalItemInfo
                 );
             }
+        }
+    }
+
+    public Sprite GetSpriteForTile(int tileId) {
+        var tile = this.tiles[tileId];
+        
+        return tile switch {
+            Tile t => t.sprite,
+            AnimatedTile t => t.m_AnimatedSprites[0],
+            _ => throw new ArgumentException("not a valid tile to fetch sprite for")
+        };
+    }
+
+    void OnEnable() {
+        if (s_instance == null) {
+            s_instance = this;
         }
     }
 }

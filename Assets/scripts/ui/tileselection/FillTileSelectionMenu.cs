@@ -21,15 +21,14 @@ public class FillTileSelectionMenu : MonoBehaviour
         foreach (var tile in tiles) {
             if (tile == null) continue;
 
-            Debug.Log("test?");
-            var idx = tiles.IndexOf(tile);
-            if (idx > validEndIdx || idx < validStartIdx) {
+            var tileId = tiles.IndexOf(tile);
+            if (tileId > validEndIdx || tileId < validStartIdx) {
                 continue;
             }
-            Debug.Log("test?");
+
             
-            var sprite = tile.sprite;
-            var name = this.globalTileInfo.tileNames[(byte)idx];
+            var sprite = this.globalTileInfo.GetSpriteForTile(tileId);
+            var name = this.globalTileInfo.tileNames[(byte)tileId];
             var tileEntry = Instantiate(this.tileEntryPrefab, this.tileListPanel);
             
             var image = tileEntry
@@ -40,11 +39,9 @@ public class FillTileSelectionMenu : MonoBehaviour
             
             var nameField = tileEntryInfo.GetComponent<TextMeshProUGUI>();
             
-            tileEntryInfo.tileId = (byte)idx;
+            tileEntryInfo.tileId = (byte)tileId;
             image.sprite = sprite;
             nameField.text = name.ToUpper();
-
-            Debug.Log("test?");
         }
     }
 }

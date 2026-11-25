@@ -17,9 +17,11 @@ public class PlaceTile : MonoBehaviour
     [SerializeField] ErrorPrompt errorPrompt;
 
     [TextArea(3, 3)]
-    [SerializeField] String NotEnoughResources;
+    [SerializeField] String notEnoughResources;
     [TextArea(3, 3)]
-    [SerializeField] String NotEnoughInventorySpace;
+    [SerializeField] String notEnoughInventorySpace;
+    [TextArea(3, 3)]
+    [SerializeField] String cannotPlaceInBackground;
 
 
     [Header("Tile Info")]
@@ -71,11 +73,21 @@ public class PlaceTile : MonoBehaviour
             if (!AttemptSpendResourcesForTile(testInventory, this.index)) return;
             if (!AttemptObtainResourcesFromTile(testInventory, originalTile)) return;
             
+            if (
+                this.globalTileInfo.foregroundExclusiveTiles.Contains(this.index)
+                && this.isBackground
+            ) {
+                goto CANNOT_PLACE_IN_BACKGROUND;
+            }
+
             if (!_TryPutTile(chunk, mouseWorldPos, tileToPut, this.isBackground, propogatesUpdates:true)) return;
             
             this.playerData.inventory.ReplaceWith(testInventory);
         }
-        
+        return;
+    CANNOT_PLACE_IN_BACKGROUND: 
+        this.errorPrompt.ShouldShow(this.cannotPlaceInBackground);
+        return;
     }
 
     public void EraseTile() {
@@ -119,7 +131,8 @@ public class PlaceTile : MonoBehaviour
 
     void Update() {
         this.transform.position = GetMouseWorld();
-        this.tilePreview.sprite = this.globalTileInfo.tiles[this.index].sprite;
+        
+        this.tilePreview.sprite = this.globalTileInfo.GetSpriteForTile(this.index);
 
         var canShowPreview = !UIManager.IsMouseOverUI();
         this.tilePreview.gameObject.SetActive(canShowPreview);
@@ -143,11 +156,11 @@ public class PlaceTile : MonoBehaviour
         return true;
     
     not_enough_resources:
-        this.errorPrompt.ShouldShow(this.NotEnoughResources);
+        this.errorPrompt.ShouldShow(this.notEnoughResources);
         return false;
     }
 
-    bool AttemptObtainResourcesFromTile(Inventory testInventory, Tile tileToRemove) {
+    bool AttemptObtainResourcesFromTile(Inventory testInventory, TileBase tileToRemove) {
         if (this.playerData.isSandboxMode) return true;
         
         var TILE_ITEM_CONTENTS = this.globalItemInfo.tileItemContents;
@@ -167,7 +180,7 @@ public class PlaceTile : MonoBehaviour
         return true;
     
     not_enough_inventory_space:
-        this.errorPrompt.ShouldShow(this.NotEnoughInventorySpace);
+        this.errorPrompt.ShouldShow(this.notEnoughInventorySpace);
         return false;
     }
 
@@ -179,7 +192,7 @@ public class PlaceTile : MonoBehaviour
 
     bool _TryPutTile(
         Chunk chunk,
-        Vector3 worldPos, Tile toPut, bool isBackground, bool propogatesUpdates = false
+        Vector3 worldPos, TileBase toPut, bool isBackground, bool propogatesUpdates = false
     ) {
         var success = chunk.TryGetTileLocation(
             worldPos, 

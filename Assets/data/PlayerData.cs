@@ -25,10 +25,14 @@ public class PlayerData : ScriptableObject
         get; private set;
     }
 
-    void Awake() {
+    public void Load() {
         if (s_instance == null) {
             s_instance = this;
         }
+    }
+
+    void OnEnable() {
+        Load();
     }
 
 

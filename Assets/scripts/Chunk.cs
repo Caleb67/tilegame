@@ -30,8 +30,8 @@ public class Chunk : MonoBehaviour
         return this.modified;
     }
 
-    public Tile[] GetAllTileData(bool isBackground) {
-        var tiles = new Tile[CHUNK_SIZE*CHUNK_SIZE];
+    public TileBase[] GetAllTileData(bool isBackground) {
+        var tiles = new TileBase[CHUNK_SIZE*CHUNK_SIZE];
         var bounds = new BoundsInt(
             Vector3Int.zero, 
             new(CHUNK_SIZE, CHUNK_SIZE, 1)
@@ -62,7 +62,7 @@ public class Chunk : MonoBehaviour
     }
 
     public const int CHUNK_SIZE = 8;
-    public bool TryPutTile(Vector3 worldPos, Tile toPut, bool isBackground, bool propogatesUpdates = false) {
+    public bool TryPutTile(Vector3 worldPos, TileBase toPut, bool isBackground, bool propogatesUpdates = false) {
         var tilemap = isBackground
             ? this.backgroundTiles
             : this.foregroundTiles;        
@@ -104,16 +104,15 @@ public class Chunk : MonoBehaviour
         return true;
     }
 
-    public Tile GetTile(Vector3Int tilePosInChunk, bool isBackground) {
+    public TileBase GetTile(Vector3Int tilePosInChunk, bool isBackground) {
         var tilemap = isBackground
             ? this.backgroundTiles
             : this.foregroundTiles;
         var tileBaseAtPos = tilemap.GetTile(tilePosInChunk);
-        if (tileBaseAtPos is not Tile tileAtPos) return null;
-        return tileAtPos;
+        return tileBaseAtPos;
     }
 
-    public Tile GetTile(Vector3 worldPos, bool isBackground) {
+    public TileBase GetTile(Vector3 worldPos, bool isBackground) {
         var tilemap = isBackground
             ? this.backgroundTiles
             : this.foregroundTiles;

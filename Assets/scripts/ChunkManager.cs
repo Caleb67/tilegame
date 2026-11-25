@@ -5,6 +5,11 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class ChunkManager : MonoBehaviour {
+    [SerializeField] List<TileBehaviour> behavioursToTick;
+    public static ChunkManager s_instance {
+        get; private set;
+    }
+
     public Chunk[] GetAllChunksLoaded() {
         return this.transform.GetComponentsInChildren<Chunk>();
     }
@@ -43,5 +48,19 @@ public class ChunkManager : MonoBehaviour {
         
         locations = outLocations.ToArray();
         return true;
+    }
+
+    void Awake() {
+        if (s_instance == null) {
+            s_instance = this;
+        }
+        StartTileBehaviours();
+    }
+
+    void StartTileBehaviours() {
+        foreach (var behaviour in this.behavioursToTick)
+        {
+            StartCoroutine(behaviour.Ticker());
+        }
     }
 }

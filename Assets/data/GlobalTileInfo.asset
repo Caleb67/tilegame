@@ -35,8 +35,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b35cb08c796fbfc409535bb752abe7ed, type: 2}
   - {fileID: 11400000, guid: 0e7d6b2bce3129e41ba31a9c5c9cec8d, type: 2}
   - {fileID: 11400000, guid: 4334418e4bc443e4a8fc0d39b5803037, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: dac320f69d91f854e90f537e46e9127c, type: 2}
+  - {fileID: 11400000, guid: 5040a7eb90c8d1542a8d5ab2abb5932a, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -272,7 +272,7 @@ MonoBehaviour:
   backgroundEmptyID: 32
   foregroundEmptyID: 0
   <placeablesStartID>k__BackingField: 1
-  <placeablesEndID>k__BackingField: 21
+  <placeablesEndID>k__BackingField: 23
   tileNames:
   - key: 1
     value: GRAY BRICKS
@@ -318,8 +318,15 @@ MonoBehaviour:
     value: CLAY 3
   - key: 21
     value: CLAY 3 BRICKS
+  - key: 22
+    value: FIRE
+  - key: 23
+    value: ASH
   tileBehaviours:
   - key: 4
     value: {fileID: 11400000, guid: ad0d0bfab0e18dc4bb57fb4f48ca8117, type: 2}
   - key: 15
     value: {fileID: 11400000, guid: 0990ff5cd81c815489edfe50e59b5ea1, type: 2}
+  - key: 22
+    value: {fileID: 11400000, guid: 6282a06011e728140969a7ed71a2d626, type: 2}
+  foregroundExclusiveTiles: 0800000016000000i

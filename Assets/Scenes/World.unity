@@ -681,6 +681,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chunk Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5126844320556314443, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
+      propertyPath: behavioursToTick.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126844320556314443, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
+      propertyPath: 'behavioursToTick.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6282a06011e728140969a7ed71a2d626, type: 2}
     - target: {fileID: 6353306458825604702, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -911,6 +919,18 @@ PrefabInstance:
     - target: {fileID: 671777110366490990, guid: 6f9d34c792159f04ebdf5e445eb6e023, type: 3}
       propertyPath: m_Name
       value: cursor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052812748147611089, guid: 6f9d34c792159f04ebdf5e445eb6e023, type: 3}
+      propertyPath: notEnoughResources
+      value: NO RESOURCES
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052812748147611089, guid: 6f9d34c792159f04ebdf5e445eb6e023, type: 3}
+      propertyPath: cannotPlaceInBackground
+      value: CANT PLACE IN BACKGROUND
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052812748147611089, guid: 6f9d34c792159f04ebdf5e445eb6e023, type: 3}
+      propertyPath: notEnoughInventorySpace
+      value: NO INVENTORY SPACE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

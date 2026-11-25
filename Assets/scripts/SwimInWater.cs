@@ -68,7 +68,9 @@ public class SwimInWater : MonoBehaviour
 
             mask.transform.position = location.positionInWorld;
             mask.transform.position += new Vector3(0.5f, 0.5f);
-            mask.sprite = tileAt.sprite;
+
+
+            mask.sprite = this.globalTileInfo.GetSpriteForTile(tileIdx);
 
             if (tileIdx == this.globalTileInfo.backgroundEmptyID) {
                 mask.gameObject.SetActive(false);

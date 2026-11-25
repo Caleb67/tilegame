@@ -15,6 +15,7 @@ public class SaveState : MonoBehaviour {
     }
 
     public void Start() {
+        this.playerData.Load();
         this.playerData.inventory.LoadFromFile();
     }
 
