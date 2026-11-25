@@ -13,6 +13,7 @@ public class SwimInWater : MonoBehaviour
     [SerializeField] PlayerController playerController;
 
     [SerializeField] SpriteMask waterEffectsMaskPrefab;
+    [SerializeField] int maskShapeTileId;
 
     SpriteMask[] spriteMasks = new SpriteMask[9];
 
@@ -34,7 +35,6 @@ public class SwimInWater : MonoBehaviour
     }
 
     bool IsInWater() {
-        var chunks = this.chunkManager.transform.GetComponentsInChildren<Chunk>();
         var success = this.chunkManager.TryGetTileLocation(
             this.transform.position,
             isBackground:true,
@@ -45,12 +45,15 @@ public class SwimInWater : MonoBehaviour
             return false;
         }
 
-        var tileUnder = playerTilePosition.Resolve();
+        success = playerTilePosition.TryResolve(
+            out var tile
+        );
+        if (!success) {
+            Debug.Log("can't resolve player tile location");
+            return false;
+        }
 
-        var tileIdx = this.globalTileInfo.tiles.IndexOf(tileUnder);
-        //Debug.Log($"tileIdx={tileIdx}, tileUnder={tileUnder}");
-        if (tileIdx == this.globalTileInfo.backgroundEmptyID) {
-            
+        if (tile == this.globalTileInfo.backgroundEmptyID) {
             return true;
         }
         else return false;
@@ -62,17 +65,21 @@ public class SwimInWater : MonoBehaviour
         var idx = 0;
         while (idx < locations.Count()) {
             var location = locations[idx];
-            var tileAt = location.Resolve();
-            var tileIdx = this.globalTileInfo.tiles.IndexOf(tileAt);
+            var success = location.TryResolve(
+                out var tile
+            );
+            if (!success) {
+                Debug.Log("can't resolve mask tile location");
+                return;
+            }
+
             var mask = this.spriteMasks[idx];
 
             mask.transform.position = location.positionInWorld;
             mask.transform.position += new Vector3(0.5f, 0.5f);
+            mask.sprite = this.globalTileInfo.GetSpriteForTile(this.maskShapeTileId);
 
-
-            mask.sprite = this.globalTileInfo.GetSpriteForTile(tileIdx);
-
-            if (tileIdx == this.globalTileInfo.backgroundEmptyID) {
+            if (tile == this.globalTileInfo.backgroundEmptyID) {
                 mask.gameObject.SetActive(false);
             }
             else mask.gameObject.SetActive(true);

@@ -1,5 +1,6 @@
 using System.IO;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ public class CreateNewSave : MonoBehaviour {
     [SerializeField] Toggle sandboxModeToggle;
 
     [SerializeField] uint initialInventoryCapacity;
-    [SerializeField] Chunk spawnChunkPrefab;
+    [SerializeField] ChunkGameObject spawnChunkPrefab;
     public void OnClick() {
         var newSaveName = this.saveNameInputField.text;
         if (string.IsNullOrEmpty(newSaveName)) return;
@@ -23,7 +24,7 @@ public class CreateNewSave : MonoBehaviour {
         newData.saveName = newSaveName;
         newData.saveSeed = seed;
         newData.inventory.capacityUnits = this.initialInventoryCapacity;
-        newData.chunks.Add(new ChunkData(this.spawnChunkPrefab, Vector3Int.zero));
+        newData.chunks.Add(this.spawnChunkPrefab.chunk);
         newData.playerPositon = new Vector2(4f, 4f);
         newData.isSandboxMode = this.sandboxModeToggle.isOn;
 

@@ -30,70 +30,13 @@ public class GlobalTileInfo : ScriptableObject {
         get; private set;
     }
 
-    public void PerformOnPlace(TileLocation location, TileBase toPut, ChunkManager chunkManager) {
-        var toPutId = this.tiles.IndexOf(toPut);
-        if (toPutId == -1) return;
-        if (this.tileBehaviours.ContainsKey(toPutId)) {
-            this.tileBehaviours[toPutId].OnPlaced(
-                location,
-                chunkManager
-            );
-        }
-    }
-    public void PerformOnDestroy(TileLocation location, TileBase toDestroy, ChunkManager chunkManager) {
-        var toDestroyId = this.tiles.IndexOf(toDestroy);
-        if (toDestroyId == -1) return;
-        if (this.tileBehaviours.ContainsKey(toDestroyId)) {
-            this.tileBehaviours[toDestroyId].OnDestroyed(
-                location,
-                chunkManager
-            );
-        }
-    }
-    public void PerformOnRandomlyTick(TileLocation location, TileBase toDestroy, ChunkManager chunkManager)
-    {
-        var toTickId = this.tiles.IndexOf(toDestroy);
-        if (toTickId == -1) return;
-        Debug.Log("something is randomly ticking");
-        if (this.tileBehaviours.ContainsKey(toTickId)) {
-            this.tileBehaviours[toTickId].OnRandomlyTick(
-                location,
-                chunkManager
-            );
-        }
-    }
-    public void UpdateNeighbours(TileLocation location, ChunkManager chunkManager) {
-        var positions = new[]{
-            Vector3Int.up, Vector3Int.down, 
-            Vector3Int.left, Vector3Int.right
-        };
-        
-        foreach (var relativePos in positions) {
-            var success = chunkManager.TryGetTileLocation(
-                location.positionInWorld + relativePos, 
-                location.isBackground,
-                out var neighbourLocation
-            );
-            if (!success) continue;
-            var tile = neighbourLocation.Resolve();
-            var tileId = this.tiles.IndexOf(tile);
-            if (tileId == -1) continue;
-            if (this.tileBehaviours.ContainsKey(tileId)) {
-                this.tileBehaviours[tileId].OnUpdated(
-                    neighbourLocation,
-                    chunkManager
-                );
-            }
-        }
-    }
-
     public Sprite GetSpriteForTile(int tileId) {
         var tile = this.tiles[tileId];
         
         return tile switch {
             Tile t => t.sprite,
             AnimatedTile t => t.m_AnimatedSprites[0],
-            _ => throw new ArgumentException("not a valid tile to fetch sprite for")
+            _ => throw new ArgumentException($"not a valid tile to fetch sprite for tile id {tileId}")
         };
     }
 

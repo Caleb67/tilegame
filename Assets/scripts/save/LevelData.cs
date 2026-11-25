@@ -8,7 +8,7 @@ using UnityEngine;
 
 [Serializable]
 public class LevelData {
-    public List<ChunkData> chunks = new();
+    public List<Chunk> chunks = new();
     public Inventory inventory = new();
     public Vector2 playerPositon = new();
     public String saveName = "";
@@ -30,23 +30,5 @@ public class LevelData {
         var jsonOut = JsonUtility.ToJson(data);
 
         File.WriteAllText(filePath, jsonOut);
-    }
-}
-
-[Serializable]
-public class ChunkData {
-    public Vector2Int position;
-    public byte[] foregroundData = new byte[Chunk.CHUNK_SIZE*Chunk.CHUNK_SIZE];
-    public byte[] backgroundData = new byte[Chunk.CHUNK_SIZE*Chunk.CHUNK_SIZE];
-
-    public ChunkData(Chunk chunk, Vector3Int pos) {
-        this.position = (Vector2Int) pos;
-        var tilesList = chunk.globalTileInfo.tiles;
-        var foregroundData = from tile in chunk.GetAllTileData(isBackground:false)
-                            select (byte) tilesList.IndexOf(tile);
-        var backgroundData = from tile in chunk.GetAllTileData(isBackground:true)
-                            select (byte) tilesList.IndexOf(tile);
-        this.foregroundData = foregroundData.ToArray();
-        this.backgroundData = backgroundData.ToArray();
     }
 }

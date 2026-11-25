@@ -13,22 +13,34 @@ public class ChunkManager : MonoBehaviour {
     [Header("Random Ticks")]
     [SerializeField] int timeBetweenRandomTicksMS;
 
+    static ChunkManager _s_instance;
     public static ChunkManager s_instance {
-        get; private set;
+        get {
+            if (_s_instance == null)
+            {
+                _s_instance = FindObjectOfType<ChunkManager>();
+            }
+            return _s_instance;
+        }
     }
 
-    public Chunk[] GetAllChunksLoaded() {
-        return this.transform.GetComponentsInChildren<Chunk>();
+    public ChunkGameObject[] GetAllChunksLoaded() {
+        return this.transform.GetComponentsInChildren<ChunkGameObject>();
     }
 
     public bool TryGetTileLocation(Vector3 worldPos, bool isBackground, out TileLocation location) {
         var chunks = GetAllChunksLoaded();
 
         foreach (var chunk in chunks) {
-            if (chunk.TryGetTileLocation(worldPos, isBackground, out location)) {
-                //Debug.Log($"found location: posInChunk:{location.positionInChunk},posInWorld:{location.positionInWorld}");
-                return true;
-            }
+            var success = chunk.TryGetPosInChunk(
+                worldPos,
+                out var posInChunk
+            );
+            if (!success) continue;
+            var realPos = chunk.ChunkPosToWorld(posInChunk);
+            location = new TileLocation(chunk, posInChunk, realPos, isBackground);
+
+            return true;
         }
 
         location = default;
@@ -58,8 +70,8 @@ public class ChunkManager : MonoBehaviour {
     }
 
     void Awake() {
-        if (s_instance == null) {
-            s_instance = this;
+        if (_s_instance == null) {
+            _s_instance = this;
         }
         StartTileBehaviours();
         StartRandomlyTicking();

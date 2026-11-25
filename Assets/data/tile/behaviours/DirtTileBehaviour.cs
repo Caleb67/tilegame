@@ -6,6 +6,7 @@ using UnityEngine;
 public class DirtTileBehaviour : TileBehaviour
 {
     [SerializeField] int indexOfMudTile;
+    [SerializeField] int idOfWaterTile;
     public override void OnPlaced(TileLocation tileLocation, ChunkManager chunkManager) {
         OnUpdated(tileLocation, chunkManager);
     }
@@ -26,12 +27,12 @@ public class DirtTileBehaviour : TileBehaviour
             );
             if (!success) continue;
             
-            var tile = location.Resolve();
-            var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
-            if (tileId == -1) continue;
+            success = location.TryResolve(
+                out var tile
+            );
             
-            if (tileId == GlobalTileInfo.s_instance.backgroundEmptyID/*water*/) {
-                tileLocation.TryPut(GlobalTileInfo.s_instance.tiles[this.indexOfMudTile]);
+            if (tile == this.idOfWaterTile) {
+                tileLocation.TryPut((byte)this.indexOfMudTile);
                 break;
             }
         }

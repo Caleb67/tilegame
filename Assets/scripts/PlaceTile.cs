@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.ProjectAuditor.Editor;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -68,11 +69,11 @@ public class PlaceTile : MonoBehaviour
 
     public void PutTile() {
         var mouseWorldPos = GetMouseWorld();
-        var chunks = this.chunkManager.transform.GetComponentsInChildren<Chunk>();
-        var tileToPut = this.globalTileInfo.tiles[this.index];
+        var chunks = ChunkManager.s_instance.GetAllChunksLoaded();
+        var tileToPut = this.index;
         foreach (var chunk in chunks) {
-            if (!chunk.IsInChunk(mouseWorldPos)) continue;
-            var originalTile = chunk.GetTile(mouseWorldPos, this.isBackground);
+            if (!chunk.TryGetPosInChunk(mouseWorldPos, out var posInChunk)) continue;
+            var originalTile = chunk.chunk.GetTile(posInChunk, this.isBackground);
             
             var testInventory = this.playerData.inventory.Clone();
 
@@ -86,7 +87,7 @@ public class PlaceTile : MonoBehaviour
                 goto CANNOT_PLACE_IN_BACKGROUND;
             }
 
-            if (!_TryPutTile(chunk, mouseWorldPos, tileToPut, this.isBackground, propogatesUpdates:true)) return;
+            if (!_TryPutTile(chunk, mouseWorldPos, (byte)tileToPut, this.isBackground, updateNeighbours:true)) return;
             
             this.playerData.inventory.ReplaceWith(testInventory);
         }
@@ -98,33 +99,38 @@ public class PlaceTile : MonoBehaviour
 
     public void EraseTile() {
         var mouseWorldPos = GetMouseWorld();
-        var chunks = this.chunkManager.transform.GetComponentsInChildren<Chunk>();
+        var chunks = ChunkManager.s_instance.GetAllChunksLoaded();
         foreach (var chunk in chunks) {
-            if (!chunk.IsInChunk(mouseWorldPos)) continue;
-            var tileAtPos = chunk.GetTile(mouseWorldPos, this.isBackground);
+            if (!chunk.TryGetPosInChunk(mouseWorldPos, out var posInChunk)) continue;
+            var tileAtPos = chunk.chunk.GetTile(posInChunk, this.isBackground);
             var testInventory = this.playerData.inventory.Clone();
+
             if (!AttemptObtainResourcesFromTile(testInventory, tileAtPos)) return;
-            if (!chunk.TryPutTile(mouseWorldPos, null, this.isBackground, propogatesUpdates:true)) return;
+
+            var location = new TileLocation(chunk, posInChunk, mouseWorldPos, this.isBackground);
+            chunk.chunk.PutTile(location, 0, this.isBackground, updateNeighbours:true);
+
             this.lastPlacedLocation = default;
+
             this.playerData.inventory.ReplaceWith(testInventory);   
         }
     }
 
     public void PickTile() {
         var mouseWorldPos = GetMouseWorld();
-        var chunks = this.chunkManager.transform.GetComponentsInChildren<Chunk>();
+        var chunks = ChunkManager.s_instance.GetAllChunksLoaded();
 
         var tiles = chunks.Select(
-            chunk => chunk.GetTile(mouseWorldPos, this.isBackground)
+            chunk => chunk.TryGetPosInChunk(mouseWorldPos, out var posInChunk)
+                ? new {success = true, tile = chunk.chunk.GetTile(posInChunk, this.isBackground)}
+                : new {success = false, tile = (byte)0}
         );
-        var tileAtPos = tiles.FirstOrDefault(it => it != null);
-        if (tileAtPos == null) return;
-        
-        var idx = this.globalTileInfo.tiles.IndexOf(tileAtPos);
-        if (idx == -1) return;
+        var tileInfoAtPos = tiles.FirstOrDefault(it => it.success == true);
+        if (tileInfoAtPos == null) return;
+        var tileAtPos = tileInfoAtPos.tile;
         
         try {
-            SelectTile(idx);
+            SelectTile(tileAtPos);
         } catch (ArgumentException) {
             return;
         }
@@ -167,16 +173,13 @@ public class PlaceTile : MonoBehaviour
         return false;
     }
 
-    bool AttemptObtainResourcesFromTile(Inventory testInventory, TileBase tileToRemove) {
+    bool AttemptObtainResourcesFromTile(Inventory testInventory, byte tileToRemove) {
         if (this.playerData.isSandboxMode) return true;
         
         var TILE_ITEM_CONTENTS = this.globalItemInfo.tileItemContents;
 
-        var originalTileIdx = this.globalTileInfo.tiles.IndexOf(tileToRemove);
-        if (originalTileIdx == -1) return false;
-
         var originalTileContents = TILE_ITEM_CONTENTS.GetValueOrDefault(
-            originalTileIdx,
+            tileToRemove,
             GlobalItemInfo.TileItemContents.NONE
         );
         foreach (var item in originalTileContents.items) {
@@ -198,15 +201,17 @@ public class PlaceTile : MonoBehaviour
     }
 
     bool _TryPutTile(
-        Chunk chunk,
-        Vector3 worldPos, TileBase toPut, bool isBackground, bool propogatesUpdates = false
+        ChunkGameObject chunk,
+        Vector3 worldPos, byte tileToPut, bool isBackground, bool updateNeighbours = false
     ) {
-        var success = chunk.TryGetTileLocation(
-            worldPos, 
-            isBackground, 
-            out var location
+        var success = chunk.TryGetPosInChunk(
+            worldPos,
+            out var posInChunk
         );
         if (!success) return false;
+
+        var location = new TileLocation(chunk,posInChunk,worldPos,isBackground);
+
         if (
             location.IsSameLocation(this.lastPlacedLocation) &&
             this.index == this.lastPlacedTileId
@@ -214,7 +219,8 @@ public class PlaceTile : MonoBehaviour
         else {
             this.lastPlacedLocation = location;
             this.lastPlacedTileId = this.index;
-            return chunk.TryPutTile(worldPos, toPut, isBackground, propogatesUpdates);
+            chunk.chunk.PutTile(location, tileToPut, isBackground, updateNeighbours);
+            return true;
         }
     }
 

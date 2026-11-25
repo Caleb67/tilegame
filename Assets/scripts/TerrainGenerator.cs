@@ -3,8 +3,7 @@ using System.Linq;
 using static System.Linq.Enumerable;
 using UnityEngine;
 using System;
-using System.IO;
-using System.Text;
+using Unity.VisualScripting;
 
 public class TerrainGenerator : MonoBehaviour
 {
@@ -27,12 +26,12 @@ public class TerrainGenerator : MonoBehaviour
         public struct ChunkEntry {
             [Range(0.0f, 1.0f)]
             public float lowerThreshold;
-            public Chunk chunkPrefab;
+            public ChunkGameObject chunkPrefab;
         }
 
         public List<ChunkEntry> entries;
 
-        public Chunk Choose(float variance) {
+        public ChunkGameObject Choose(float variance) {
             foreach (var entry in this.entries) {
                 if (variance > entry.lowerThreshold) {
                     return entry.chunkPrefab;
@@ -45,12 +44,12 @@ public class TerrainGenerator : MonoBehaviour
     [Header("Variants")]
 
     [SerializeField] List<Variant> variants = new();
-    [SerializeField] Chunk defaultChunkPrefab;
+    [SerializeField] ChunkGameObject defaultChunkPrefab;
 
     [Header("Data")]
     [SerializeField] PlayerData playerData;
 
-    Dictionary<Vector3Int, Chunk> loadedChunks = new();
+    Dictionary<Vector3Int, ChunkGameObject> loadedChunks = new();
 
     float offsetX;
     float offsetY;
@@ -129,7 +128,7 @@ public class TerrainGenerator : MonoBehaviour
         return all.ToArray();
     }
 
-    Chunk LoadOrGenerate(Vector3Int chunkPos) {
+    ChunkGameObject LoadOrGenerate(Vector3Int chunkPos) {
         var chunk = LoadFromFile(chunkPos);
         if (chunk == null) {
             chunk = Generate(chunkPos);
@@ -137,7 +136,7 @@ public class TerrainGenerator : MonoBehaviour
         return chunk;
     }
 
-    Chunk Generate(Vector3Int chunkPos) {
+    ChunkGameObject Generate(Vector3Int chunkPos) {
         float x = chunkPos.x + 0.001f;
         float y = chunkPos.y + 0.001f;
         float rand = Mathf.PerlinNoise(
@@ -149,7 +148,7 @@ public class TerrainGenerator : MonoBehaviour
             (y * this.scaleY) + this.varianceOffsetY
         );
 
-        Chunk chunk = null;
+        ChunkGameObject chunk = null;
         foreach (var variant in this.variants) {
             if (rand > variant.lowerThreshold) {
                 chunk = variant.Choose(variance);
@@ -160,39 +159,37 @@ public class TerrainGenerator : MonoBehaviour
 
         var realPos = this.chunkManager.CellToWorld(chunkPos);
 
-        return Instantiate(chunk, realPos, Quaternion.identity, this.chunkManager.transform);
+        chunk = Instantiate(chunk, realPos, Quaternion.identity, this.chunkManager.transform);
+        chunk.chunk.position = (Vector2Int)chunkPos;
+        return chunk;
     }
 
-    Chunk LoadFromFile(Vector3Int chunkPos) {
+    ChunkGameObject LoadFromFile(Vector3Int chunkPos) {
         var data = LevelData.LoadFromFile(this.playerData.savePath);
 
-        Chunk chunkOut = null;
+        ChunkGameObject chunkOut = null;
         
-        foreach (var chunkData in data.chunks) {
-            var pos = (Vector3Int)chunkData.position;
+        foreach (var chunk in data.chunks) {
+            var pos = (Vector3Int)chunk.position;
             if (pos != chunkPos) continue;
 
             var realPos = this.chunkManager.CellToWorld(chunkPos);
+            
             chunkOut = Instantiate(this.defaultChunkPrefab, realPos, Quaternion.identity, this.chunkManager.transform);
-
-            chunkOut.FillData(chunkData.foregroundData, isBackground:false);
-            chunkOut.FillData(chunkData.backgroundData, isBackground:true);
+            chunkOut.chunk = chunk;
         }
 
         return chunkOut;
     }
     
-    void WriteToFile(Chunk chunk, Vector3Int chunkPos) {
+    void WriteToFile(ChunkGameObject chunk, Vector3Int chunkPos) {
         var data = LevelData.LoadFromFile(this.playerData.savePath);
         if (data == null) data = new LevelData();
-
-        var foregroundData = chunk.GetAllTileData(false);
-        var backgroundData = chunk.GetAllTileData(true);
 
         data.chunks.RemoveAll(
             savedChunk => (Vector3Int)savedChunk.position == chunkPos
         );
-        data.chunks.Add(new ChunkData(chunk, chunkPos));
+        data.chunks.Add(chunk.chunk);
 
         LevelData.Save(this.playerData.savePath, data);
     }

@@ -9,6 +9,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FireTileBehaviour", menuName = "Tile Behaviours/FireTileBehaviour")]
 public class FireTileBehaviour : TileBehaviour
 {
+    [SerializeField] int idOfEmptyTile;
     [SerializeField] int idOfAshTile;
     [SerializeField] int idOfFireTile;
     [SerializeField] List<int> idsOfBurnableTiles = new();
@@ -29,14 +30,14 @@ public class FireTileBehaviour : TileBehaviour
             out var location
         );
         if (!success) return;
-        if (location.Resolve() == null) return;
 
-        var tile = location.Resolve();
-        var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
-        if (tileId == -1) return;
+        success = location.TryResolve(
+            out byte backgroundTile
+        );
+        if (!success) return;
 
-        if (this.idsOfBurnableTiles.Contains(tileId)) {
-            location.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfAshTile]);
+        if (this.idsOfBurnableTiles.Contains(backgroundTile)) {
+            location.TryPut((byte)this.idOfAshTile);
         }
     }
 
@@ -61,27 +62,31 @@ public class FireTileBehaviour : TileBehaviour
             );
             if (!success) break;
 
-            if (aboveLocation.Resolve() != null) continue;
-            if (location.Resolve() == null) continue;
+            success = aboveLocation.TryResolve(
+                out byte aboveTile
+            );
+            if (!success) continue;
+            if (aboveTile != this.idOfEmptyTile) continue;
 
-            var tile = location.Resolve();
-            var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
-            if (tileId == -1) break;
+            success = location.TryResolve(
+                out byte backgroundTile
+            );
+            if (!success) continue;
             
-            if (this.idsOfBurnableTiles.Contains(tileId)) {
-                aboveLocation.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfFireTile]);
-                location.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfAshTile]);
+            if (this.idsOfBurnableTiles.Contains(backgroundTile)) {
+                aboveLocation.TryPut((byte)this.idOfFireTile);
+                location.TryPut((byte)this.idOfAshTile);
             }
         }
         if (this.random.NextDouble() < this.extinguishChance) {
-            tileLocation.TryPut(null);    
+            tileLocation.TryPut((byte)this.idOfEmptyTile);    
         }
     }
 
     public override IEnumerator Ticker() {
         while (true) {
             this.activeFires.RemoveAll(
-                it => it.Resolve() == null
+                it => it.TryResolve(out var _) == false
             );
             Debug.Log("fire ticked");
 
@@ -101,7 +106,7 @@ public class FireTileBehaviour : TileBehaviour
     {
         var toTick = this.activeFires.ToList();
         foreach (var fireLocation in toTick) {
-            fireLocation.TryPut(null);
+            fireLocation.TryPut((byte)this.idOfEmptyTile);
         }
     }
 }

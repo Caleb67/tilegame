@@ -10,6 +10,7 @@ public class BushTileBehaviour : TileBehaviour
     [Space(5)]
     [SerializeField] int indexOfAshTile;
     [SerializeField] int indexOfDirtTile;
+    [SerializeField] int idOfEmptyTile;
 
     [Space(10)]
     [Range(0f, 1f)]
@@ -45,23 +46,25 @@ public class BushTileBehaviour : TileBehaviour
             );
             if (!success) continue;
 
-            if (aboveLocation.Resolve() != null) continue;
+            success = aboveLocation.TryResolve(
+                out byte aboveTile
+            );
+            if (!success) continue;
+            if (aboveTile != this.idOfEmptyTile) continue;
 
-            var tile = location.Resolve();
-            var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
-            if (tileId == -1) continue;
-            
-            if (tileId != this.indexOfAshTile) continue;
+            success = location.TryResolve(
+                out byte backgroundTile
+            );
+            if (!success) continue;
+            if (backgroundTile != this.indexOfAshTile) continue;
 
             aboveLocation.TryPut(
                 ShouldGrowWoodInstead()
-                    ? GlobalTileInfo.s_instance.tiles[this.indexOfWoodTile]
-                    : GlobalTileInfo.s_instance.tiles[this.indexOfBushTile]
+                    ? (byte) this.indexOfWoodTile
+                    : (byte) this.indexOfBushTile
             );
             if (ShouldConsumeAsh()) {
-                location.TryPut(
-                    GlobalTileInfo.s_instance.tiles[this.indexOfDirtTile]
-                );
+                location.TryPut((byte) this.indexOfDirtTile);
             }
             break;
         }

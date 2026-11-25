@@ -24,17 +24,18 @@ public class MudTileBehaviour : TileBehaviour
                 tileLocation.isBackground,
                 out var location
             );
-            if (!success) return;
+            if (!success) continue;
             
-            var tile = location.Resolve();
-            var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
-            if (tileId == -1) return;
-            
-            if (tileId != this.idOfSandTile) {
+            success = location.TryResolve(
+                out byte neighbourTile
+            );
+            if (!success) continue;
+
+            if (neighbourTile != this.idOfSandTile) {
                 return;
             }
         }
         
-        tileLocation.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfClayTile]);
+        tileLocation.TryPut((byte)this.idOfClayTile);
     }
 }

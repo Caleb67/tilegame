@@ -725,6 +725,10 @@ PrefabInstance:
       propertyPath: chunkManager
       value: 
       objectReference: {fileID: 7691058708886853922}
+    - target: {fileID: 8365367927803413710, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: maskShapeTileId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9170439902756236168, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
