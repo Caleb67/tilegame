@@ -14,6 +14,12 @@ public class PlaceTile : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] SpriteRenderer tilePreview;
+    [SerializeField] SpriteRenderer tilePreviewIndicator;
+    [Space(5)]
+    [SerializeField] Color backgroundIndicatorColor;
+    [SerializeField] Color foregroundIndicatorColor;
+
+    [Space(10)]
     [SerializeField] ErrorPrompt errorPrompt;
 
     [TextArea(3, 3)]
@@ -136,6 +142,7 @@ public class PlaceTile : MonoBehaviour
 
         var canShowPreview = !UIManager.IsMouseOverUI();
         this.tilePreview.gameObject.SetActive(canShowPreview);
+        SetPreviewIndicator();
     }
 
     bool AttemptSpendResourcesForTile(Inventory testInventory, int tileToPlaceIdx) {
@@ -209,5 +216,12 @@ public class PlaceTile : MonoBehaviour
             this.lastPlacedTileId = this.index;
             return chunk.TryPutTile(worldPos, toPut, isBackground, propogatesUpdates);
         }
+    }
+
+    void SetPreviewIndicator() {
+        this.tilePreviewIndicator.color = 
+            this.isBackground
+            ? this.backgroundIndicatorColor
+            : this.foregroundIndicatorColor;
     }
 }
