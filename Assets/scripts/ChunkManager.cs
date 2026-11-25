@@ -4,9 +4,15 @@ using static System.Linq.Enumerable;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using System.Collections;
+using Unity.VisualScripting;
+using System;
 
 public class ChunkManager : MonoBehaviour {
     [SerializeField] List<TileBehaviour> behavioursToTick;
+    [Header("Random Ticks")]
+    [SerializeField] int timeBetweenRandomTicksMS;
+
     public static ChunkManager s_instance {
         get; private set;
     }
@@ -56,6 +62,7 @@ public class ChunkManager : MonoBehaviour {
             s_instance = this;
         }
         StartTileBehaviours();
+        StartRandomlyTicking();
     }
 
     void StartTileBehaviours() {
@@ -65,10 +72,32 @@ public class ChunkManager : MonoBehaviour {
         }
     }
 
+    void StartRandomlyTicking() => StartCoroutine(RandomlyTick());
+
     public void CleanTickers() {
         foreach (var behaviour in this.behavioursToTick) {
             StopCoroutine(behaviour.Ticker());
             behaviour.QuitTicking();
         }
+    }
+
+    IEnumerator RandomlyTick() {
+        while (true) {
+            yield return new WaitForSeconds(
+                (float) TimeSpan.FromMilliseconds(this.timeBetweenRandomTicksMS)
+                                .TotalSeconds
+            );
+            PerformRandomTick();
+        }
+    }
+
+    System.Random random = new();
+    void PerformRandomTick() {
+        var chunks = GetAllChunksLoaded();
+        
+        var next = chunks.OrderBy(c => this.random.NextDouble())
+            .FirstOrDefault();
+
+        if (next != null) next.RandomlyTick();
     }
 }

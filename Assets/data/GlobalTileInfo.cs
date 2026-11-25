@@ -39,8 +39,7 @@ public class GlobalTileInfo : ScriptableObject {
         if (this.tileBehaviours.ContainsKey(toPutId)) {
             this.tileBehaviours[toPutId].OnPlaced(
                 location,
-                chunkManager,
-                this, globalItemInfo
+                chunkManager
             );
         }
     }
@@ -53,8 +52,23 @@ public class GlobalTileInfo : ScriptableObject {
         if (this.tileBehaviours.ContainsKey(toDestroyId)) {
             this.tileBehaviours[toDestroyId].OnDestroyed(
                 location,
-                chunkManager,
-                this, globalItemInfo
+                chunkManager
+            );
+        }
+    }
+
+    public void PerformOnRandomlyTick(
+        TileLocation location, TileBase toDestroy,
+        ChunkManager chunkManager
+    )
+    {
+        var toTickId = this.tiles.IndexOf(toDestroy);
+        if (toTickId == -1) return;
+        Debug.Log("something is randomly ticking");
+        if (this.tileBehaviours.ContainsKey(toTickId)) {
+            this.tileBehaviours[toTickId].OnRandomlyTick(
+                location,
+                chunkManager
             );
         }
     }
@@ -81,8 +95,7 @@ public class GlobalTileInfo : ScriptableObject {
             if (this.tileBehaviours.ContainsKey(tileId)) {
                 this.tileBehaviours[tileId].OnUpdated(
                     neighbourLocation,
-                    chunkManager,
-                    this, globalItemInfo
+                    chunkManager
                 );
             }
         }

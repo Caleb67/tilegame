@@ -21,8 +21,7 @@ public class FireTileBehaviour : TileBehaviour
 
     readonly System.Random random = new();
     public override void OnPlaced(
-        TileLocation tileLocation, ChunkManager chunkManager,
-        GlobalTileInfo globalTileInfo, GlobalItemInfo globalItemInfo
+        TileLocation tileLocation, ChunkManager chunkManager
     ) {
         this.activeFires.Add(tileLocation);
 
@@ -35,17 +34,16 @@ public class FireTileBehaviour : TileBehaviour
         if (location.Resolve() == null) return;
 
         var tile = location.Resolve();
-        var tileId = globalTileInfo.tiles.IndexOf(tile);
+        var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
         if (tileId == -1) return;
 
         if (this.idsOfBurnableTiles.Contains(tileId)) {
-            location.TryPut(globalTileInfo.tiles[this.idOfAshTile]);
+            location.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfAshTile]);
         }
     }
 
     void TickFire(
-        TileLocation tileLocation, ChunkManager chunkManager,
-        GlobalTileInfo globalTileInfo
+        TileLocation tileLocation, ChunkManager chunkManager
     ) {
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 
@@ -71,12 +69,12 @@ public class FireTileBehaviour : TileBehaviour
             if (location.Resolve() == null) continue;
 
             var tile = location.Resolve();
-            var tileId = globalTileInfo.tiles.IndexOf(tile);
+            var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
             if (tileId == -1) break;
             
             if (this.idsOfBurnableTiles.Contains(tileId)) {
-                aboveLocation.TryPut(globalTileInfo.tiles[this.idOfFireTile]);
-                location.TryPut(globalTileInfo.tiles[this.idOfAshTile]);
+                aboveLocation.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfFireTile]);
+                location.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfAshTile]);
             }
         }
         if (this.random.NextDouble() < this.extinguishChance) {
@@ -94,9 +92,8 @@ public class FireTileBehaviour : TileBehaviour
             var toTick = this.activeFires.ToList();
             foreach (var fireLocation in toTick) {
                 TickFire(
-                    fireLocation, 
-                    ChunkManager.s_instance, 
-                    GlobalTileInfo.s_instance
+                    fireLocation,
+                    ChunkManager.s_instance
                 );
             }
 

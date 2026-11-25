@@ -682,6 +682,10 @@ PrefabInstance:
       value: Chunk Manager
       objectReference: {fileID: 0}
     - target: {fileID: 5126844320556314443, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
+      propertyPath: timeBetweenRandomTicksMS
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5126844320556314443, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
       propertyPath: behavioursToTick.Array.size
       value: 1
       objectReference: {fileID: 0}

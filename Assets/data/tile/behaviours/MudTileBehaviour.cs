@@ -8,15 +8,13 @@ public class MudTileBehaviour : TileBehaviour
     [SerializeField] int idOfClayTile;
     [SerializeField] int idOfSandTile;
     public override void OnPlaced(
-        TileLocation tileLocation, ChunkManager chunkManager,
-        GlobalTileInfo globalTileInfo, GlobalItemInfo globalItemInfo
+        TileLocation tileLocation, ChunkManager chunkManager
     ) {
-        OnUpdated(tileLocation, chunkManager, globalTileInfo, globalItemInfo);
+        OnUpdated(tileLocation, chunkManager);
     }
 
     public override void OnUpdated(
-        TileLocation tileLocation, ChunkManager chunkManager,
-        GlobalTileInfo globalTileInfo, GlobalItemInfo globalItemInfo
+        TileLocation tileLocation, ChunkManager chunkManager
     ) {
 
         var positions = new[]{
@@ -33,7 +31,7 @@ public class MudTileBehaviour : TileBehaviour
             if (!success) return;
             
             var tile = location.Resolve();
-            var tileId = globalTileInfo.tiles.IndexOf(tile);
+            var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
             if (tileId == -1) return;
             
             if (tileId != this.idOfSandTile) {
@@ -41,6 +39,6 @@ public class MudTileBehaviour : TileBehaviour
             }
         }
         
-        tileLocation.TryPut(globalTileInfo.tiles[this.idOfClayTile]);
+        tileLocation.TryPut(GlobalTileInfo.s_instance.tiles[this.idOfClayTile]);
     }
 }

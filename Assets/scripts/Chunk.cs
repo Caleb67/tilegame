@@ -50,17 +50,7 @@ public class Chunk : MonoBehaviour
     public bool IsDirty() { 
         return this.dirty;
     }
-
-    void Update() {
-        if (this.dirty && !this.modified) {
-            Destroy(this.gameObject);
-        }
-        this.dirty = true;
-    }
-    void Awake() {
-        this.chunkManager = FindObjectOfType<ChunkManager>();
-    }
-
+    
     public const int CHUNK_SIZE = 8;
     public bool TryPutTile(Vector3 worldPos, TileBase toPut, bool isBackground, bool propogatesUpdates = false) {
         var tilemap = isBackground
@@ -165,4 +155,49 @@ public class Chunk : MonoBehaviour
 
         tilemap.SetTilesBlock(bounds, toPut.ToArray());
     }
+
+    /// <summary>
+    /// perform a random tick for a random tile if it accepts random ticks
+    /// </summary>
+    /// <remarks>
+    /// performs tick on the background tile first, then the foreground
+    /// </remarks>
+    public void RandomlyTick() {
+        _RandomlyTick(isBackground:true);
+        _RandomlyTick(isBackground:false);
+    }
+
+    System.Random random = new();
+    void _RandomlyTick(bool isBackground) {
+        var tilemap = isBackground 
+            ? this.backgroundTiles
+            : this.foregroundTiles;
+        
+        var x = this.random.Next(0,8);
+        var y = this.random.Next(0,8);
+        var pos = new Vector3Int(x, y);
+
+        var tile = tilemap.GetTile(pos);
+
+        GlobalTileInfo.s_instance.PerformOnRandomlyTick(
+            new TileLocation(
+                this,
+                pos, tilemap.CellToWorld(pos),
+                isBackground
+            ),
+            tile,
+            ChunkManager.s_instance
+        );
+    }
+
+    void Update() {
+        if (this.dirty && !this.modified) {
+            Destroy(this.gameObject);
+        }
+        this.dirty = true;
+    }
+    void Awake() {
+        this.chunkManager = FindObjectOfType<ChunkManager>();
+    }
+
 }

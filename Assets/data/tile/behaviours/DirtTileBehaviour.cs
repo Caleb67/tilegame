@@ -7,15 +7,13 @@ public class DirtTileBehaviour : TileBehaviour
 {
     [SerializeField] int indexOfMudTile;
     public override void OnPlaced(
-        TileLocation tileLocation, ChunkManager chunkManager,
-        GlobalTileInfo globalTileInfo, GlobalItemInfo globalItemInfo
+        TileLocation tileLocation, ChunkManager chunkManager
     ) {
-        OnUpdated(tileLocation, chunkManager, globalTileInfo, globalItemInfo);
+        OnUpdated(tileLocation, chunkManager);
     }
 
     public override void OnUpdated(
-        TileLocation tileLocation, ChunkManager chunkManager,
-        GlobalTileInfo globalTileInfo, GlobalItemInfo globalItemInfo
+        TileLocation tileLocation, ChunkManager chunkManager
     ) {
         if (!tileLocation.isBackground) return;
 
@@ -33,11 +31,11 @@ public class DirtTileBehaviour : TileBehaviour
             if (!success) continue;
             
             var tile = location.Resolve();
-            var tileId = globalTileInfo.tiles.IndexOf(tile);
+            var tileId = GlobalTileInfo.s_instance.tiles.IndexOf(tile);
             if (tileId == -1) continue;
             
-            if (tileId == globalTileInfo.backgroundEmptyID/*water*/) {
-                tileLocation.TryPut(globalTileInfo.tiles[this.indexOfMudTile]);
+            if (tileId == GlobalTileInfo.s_instance.backgroundEmptyID/*water*/) {
+                tileLocation.TryPut(GlobalTileInfo.s_instance.tiles[this.indexOfMudTile]);
                 break;
             }
         }
