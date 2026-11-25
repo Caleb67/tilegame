@@ -176,12 +176,12 @@ public class Chunk : MonoBehaviour
             ? this.backgroundTiles
             : this.foregroundTiles;
 
-        var tile = tilemap.GetTile(pos);
+        var tile = tilemap.GetTile(posInChunk);
 
         GlobalTileInfo.s_instance.PerformOnRandomlyTick(
             new TileLocation(
                 this,
-                pos, tilemap.CellToWorld(pos),
+                posInChunk, tilemap.CellToWorld(posInChunk),
                 isBackground
             ),
             tile,
