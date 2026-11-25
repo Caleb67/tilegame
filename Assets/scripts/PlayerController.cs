@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     [Header("Player")]
     [SerializeField] float landMoveSpeed;
     [SerializeField] float waterMoveSpeed;
+
+    [Space(10)]
+    [SerializeField] float timeBeforeCanEditWorld;
     
     [Header("Keybindings")]
     [Space(5)]
@@ -42,6 +45,8 @@ public class PlayerController : MonoBehaviour
     PlaceTile cursor;
     float curMoveSpeed;
 
+    bool canEditWorldNow = false;
+
     
     public void SetSwimming(bool value) {
         this.curMoveSpeed = value
@@ -55,6 +60,8 @@ public class PlayerController : MonoBehaviour
         this.transform.position = this.playerData.playerStartPos;
         this.body = GetComponent<Rigidbody2D>();
         this.cursor = FindObjectOfType<PlaceTile>();
+
+        Invoke(nameof(AllowEditingWorld), this.timeBeforeCanEditWorld);
     }
 
     void FixedUpdate() {
@@ -99,13 +106,17 @@ public class PlayerController : MonoBehaviour
         var scroll = Input.mouseScrollDelta;
         var sizeDifference = scroll.y * this.zoomSpeed;
         
-        if (Input.GetKey(this.placeTile)) this.cursor.PutTile();
-        if (Input.GetKey(this.eraseTile)) this.cursor.EraseTile();
-        if (Input.GetKey(this.pickTile)) this.cursor.PickTile();
+        if (this.canEditWorldNow) {
+            if (Input.GetKey(this.placeTile)) this.cursor.PutTile();
+            if (Input.GetKey(this.eraseTile)) this.cursor.EraseTile();
+            if (Input.GetKey(this.pickTile)) this.cursor.PickTile();
+        }
 
         var prevSize = this.camera.Lens.OrthographicSize;
         var newSize = Math.Clamp(prevSize - sizeDifference, this.minCameraSize, this.maxCameraSize);
         this.camera.Lens.OrthographicSize = newSize;
     }
+
+    void AllowEditingWorld() { this.canEditWorldNow = true; }
 
 }
