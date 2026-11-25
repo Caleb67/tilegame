@@ -163,19 +163,18 @@ public class Chunk : MonoBehaviour
     /// performs tick on the background tile first, then the foreground
     /// </remarks>
     public void RandomlyTick() {
-        _RandomlyTick(isBackground:true);
-        _RandomlyTick(isBackground:false);
-    }
-
-    System.Random random = new();
-    void _RandomlyTick(bool isBackground) {
-        var tilemap = isBackground 
-            ? this.backgroundTiles
-            : this.foregroundTiles;
-        
         var x = this.random.Next(0,8);
         var y = this.random.Next(0,8);
         var pos = new Vector3Int(x, y);
+        _RandomlyTick(pos, isBackground:true);
+        _RandomlyTick(pos, isBackground:false);
+    }
+
+    System.Random random = new();
+    void _RandomlyTick(Vector3Int posInChunk, bool isBackground) {
+        var tilemap = isBackground 
+            ? this.backgroundTiles
+            : this.foregroundTiles;
 
         var tile = tilemap.GetTile(pos);
 
