@@ -103,7 +103,12 @@ public class PlaceTile : MonoBehaviour
             if (!AttemptObtainResourcesFromTile(testInventory, tileAtPos)) return;
 
             var location = new TileLocation(chunk, posInChunk, mouseWorldPos, this.isBackground);
-            chunk.chunk.PutTile(location, 0, this.isBackground, updateNeighbours:true);
+
+            var tileToPut = this.isBackground
+                ? GlobalTileInfo.s_instance.backgroundEmptyID
+                : GlobalTileInfo.s_instance.foregroundEmptyID;
+            
+            chunk.chunk.PutTile(location, tileToPut, this.isBackground, updateNeighbours:true);
 
             this.lastPlacedLocation = default;
 
@@ -206,7 +211,6 @@ public class PlaceTile : MonoBehaviour
         if (!success) return false;
 
         var location = new TileLocation(chunk,posInChunk,worldPos,isBackground);
-
         if (
             location.IsSameLocation(this.lastPlacedLocation) &&
             this.index == this.lastPlacedTileId

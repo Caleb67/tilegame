@@ -30,6 +30,7 @@ public class DirtTileBehaviour : TileBehaviour
             success = location.TryResolve(
                 out var tile
             );
+            if (!success) continue;
             
             if (tile == this.idOfWaterTile) {
                 tileLocation.TryPut((byte)this.indexOfMudTile);

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: DirtTileBehaviour
   m_EditorClassIdentifier: Assembly-CSharp::DirtTileBehaviour
   indexOfMudTile: 15
+  idOfWaterTile: 32

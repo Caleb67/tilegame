@@ -59,7 +59,7 @@ public class TileBehaviour : ScriptableObject
                 out var neighbourLocation
             );
             if (!success) continue;
-            success = location.TryResolve(
+            success = neighbourLocation.TryResolve(
                 out byte neighbourTile
             );
             if (!success) continue;
