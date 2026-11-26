@@ -720,7 +720,7 @@ PrefabInstance:
     - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
       propertyPath: chunkManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2582685566917386683}
     - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
       propertyPath: noiseLayers.Array.size
       value: 2
@@ -887,6 +887,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
+--- !u!156049354 &2582685566917386683 stripped
+Grid:
+  m_CorrespondingSourceObject: {fileID: 3263647328985823326, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
+  m_PrefabInstance: {fileID: 2582685566917386682}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5937052977168002127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9170439902756236168, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
