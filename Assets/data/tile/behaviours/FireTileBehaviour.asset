@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76da46fce305e6e4689695633469eb2d, type: 3}
   m_Name: FireTileBehaviour
   m_EditorClassIdentifier: Assembly-CSharp::FireTileBehaviour
-  idOfAshTile: 23
+  idOfEmptyTile: 0
   idOfFireTile: 22
-  idsOfBurnableTiles: 090000000a0000000b0000000c0000000d0000000e000000i
   fireTickDelay: 1
   extinguishChance: 0.315
+  idOfAshTile: 23
+  idsOfBurnableTiles: 090000000a0000000b0000000c0000000d0000000e000000i
+  idOfCeramicTile: 24
+  idsOfClayTiles: 100000001200000014000000i

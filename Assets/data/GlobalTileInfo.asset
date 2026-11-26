@@ -37,14 +37,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4334418e4bc443e4a8fc0d39b5803037, type: 2}
   - {fileID: 11400000, guid: dac320f69d91f854e90f537e46e9127c, type: 2}
   - {fileID: 11400000, guid: 5040a7eb90c8d1542a8d5ab2abb5932a, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 8c18d056733ac3e44a178d4a993eb8a5, type: 2}
+  - {fileID: 11400000, guid: fd44db8cb59c785439e567595992b412, type: 2}
+  - {fileID: 11400000, guid: 7428c0d909f5ccb4ca5c26c5b5f607c0, type: 2}
+  - {fileID: 11400000, guid: 97013e7ff9d3a204dbd506058aa56cb6, type: 2}
+  - {fileID: 11400000, guid: 1f99a593b544bf141936d2e4d6deedfa, type: 2}
+  - {fileID: 11400000, guid: 391e08986a52cea489cf726e36af79a4, type: 2}
+  - {fileID: 11400000, guid: 31c26badb06d274449d70d3108a85349, type: 2}
+  - {fileID: 11400000, guid: cf63856972361c54eb5b310c5a99ceeb, type: 2}
   - {fileID: 11400000, guid: ae5b9cba3140c0d4cbb8f1981260eedc, type: 2}
   - {fileID: 0}
   - {fileID: 0}
@@ -272,7 +272,7 @@ MonoBehaviour:
   backgroundEmptyID: 32
   foregroundEmptyID: 0
   <placeablesStartID>k__BackingField: 1
-  <placeablesEndID>k__BackingField: 23
+  <placeablesEndID>k__BackingField: 31
   tileNames:
   - key: 1
     value: GRAY BRICKS
@@ -322,6 +322,22 @@ MonoBehaviour:
     value: FIRE
   - key: 23
     value: ASH
+  - key: 24
+    value: 'CERAMIC '
+  - key: 25
+    value: CERAMIC 2
+  - key: 26
+    value: CERAMIC 3
+  - key: 27
+    value: CERAMIC 4
+  - key: 28
+    value: CERAMIC DARK
+  - key: 29
+    value: CERAMIC DARK 2
+  - key: 30
+    value: CERAMIC DARK 3
+  - key: 31
+    value: CERAMIC DARK 4
   tileBehaviours:
   - key: 4
     value: {fileID: 11400000, guid: ad0d0bfab0e18dc4bb57fb4f48ca8117, type: 2}

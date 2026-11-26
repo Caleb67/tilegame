@@ -8,13 +8,23 @@ using UnityEngine;
 public class FireTileBehaviour : TileBehaviour
 {
     [SerializeField] int idOfEmptyTile;
-    [SerializeField] int idOfAshTile;
     [SerializeField] int idOfFireTile;
-    [SerializeField] List<int> idsOfBurnableTiles = new();
+
+    [Space(5)]
     [SerializeField] float fireTickDelay;
 
     [Range(0f, 1f)]
     [SerializeField] float extinguishChance;
+
+    [Space(10)]
+    [Header("Ash Behaviour")]
+    [SerializeField] int idOfAshTile;
+    [SerializeField] List<int> idsOfBurnableTiles = new();
+    [Space(10)]
+    [Header("Ceramic Behaviour")]
+    [SerializeField] int idOfCeramicTile;
+    [SerializeField] List<int> idsOfClayTiles = new();
+    
 
     List<TileLocation> activeFires = new();
 
@@ -34,14 +44,18 @@ public class FireTileBehaviour : TileBehaviour
         );
         if (!success) return;
 
-        if (this.idsOfBurnableTiles.Contains(backgroundTile)) {
+        if (IsBurnableTile(backgroundTile)) {
             location.TryPut((byte)this.idOfAshTile);
+        }
+        if (IsClayTile(backgroundTile)) {
+            location.TryPut((byte)this.idOfCeramicTile);
         }
     }
     public override void OnDestroyed(TileLocation tileLocation, ChunkManager chunkManager) {
-        Debug.Log("test?");
+        //Debug.Log("test?");
         this.activeFires.RemoveAll(loc => tileLocation.IsSameLocation(loc));
     }
+
     void TickFire(TileLocation tileLocation, ChunkManager chunkManager) {
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 
@@ -63,9 +77,16 @@ public class FireTileBehaviour : TileBehaviour
             if (!success) continue;
 
             if (aboveTile != this.idOfEmptyTile) continue;
-            if (this.idsOfBurnableTiles.Contains(backgroundTile)) {
+            
+
+            
+            if (IsBurnableTile(backgroundTile)) {
                 neighbour.TryPut((byte)this.idOfFireTile);
                 neighbourBackground.TryPut((byte)this.idOfAshTile);
+            }
+            if (IsClayTile(backgroundTile)) {
+                neighbour.TryPut((byte)this.idOfFireTile);
+                neighbourBackground.TryPut((byte)this.idOfCeramicTile);
             }
         }
         
@@ -100,4 +121,7 @@ public class FireTileBehaviour : TileBehaviour
             fireLocation.TryPut((byte)this.idOfEmptyTile);
         }
     }
+
+    bool IsBurnableTile(byte tileId) => this.idsOfBurnableTiles.Contains(tileId);
+    bool IsClayTile(byte tileId) => this.idsOfClayTiles.Contains(tileId);
 }
