@@ -107,6 +107,7 @@ public class ChunkGameObject : MonoBehaviour
         this.foregroundTiles.SetTilesBlock(bounds, foregroundData.ToArray());
     }
 
+#if UNITY_EDITOR
     [CustomEditor(typeof(ChunkGameObject))]
     public class FillChunkDataFromTilemap : Editor
     {
@@ -118,6 +119,8 @@ public class ChunkGameObject : MonoBehaviour
             if (GUILayout.Button("Fill Chunk from Tilemap")) {
                 FillChunkData(chunk);
             }
+            EditorUtility.SetDirty(this.target);
+            this.serializedObject.ApplyModifiedProperties();
         }
 
         void FillChunkData(ChunkGameObject chunk) {
@@ -145,7 +148,5 @@ public class ChunkGameObject : MonoBehaviour
         }
 
     }
-
-    
-
+#endif
 }
