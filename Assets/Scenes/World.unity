@@ -720,7 +720,51 @@ PrefabInstance:
     - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
       propertyPath: chunkManager
       value: 
-      objectReference: {fileID: 8475625960734937137}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.data[0].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.data[0].scaleX
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.data[0].scaleY
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.data[0].weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.data[1].scaleX
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.data[1].scaleY
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: noiseLayers.Array.data[1].weight
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: variants.Array.data[0].lowerThreshold
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: variants.Array.data[1].lowerThreshold
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6492219114203700120, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
+      propertyPath: variants.Array.data[2].lowerThreshold
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 8365367927803413710, guid: 10bf36d46b7a03847a9f587ee47c898a, type: 3}
       propertyPath: chunkManager
       value: 
@@ -1096,11 +1140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13118de65be97ed46b4980ff7dfab5ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChunkManager
---- !u!156049354 &8475625960734937137 stripped
-Grid:
-  m_CorrespondingSourceObject: {fileID: 3263647328985823326, guid: f072e3e1359ae8947b0766fd07375048, type: 3}
-  m_PrefabInstance: {fileID: 2582685566917386682}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

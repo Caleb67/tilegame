@@ -35,6 +35,13 @@ public struct TileLocation {
         }
     }
 
+    public readonly TileLocation AsBackground() {
+        return new(this.chunk, this.positionInChunk, this.positionInWorld, true);
+    }
+    public readonly TileLocation AsForeground() {
+        return new(this.chunk, this.positionInChunk, this.positionInWorld, false);
+    }
+    
     public readonly bool IsSameLocation(TileLocation other) {
         return (
             other.chunk == this.chunk &&

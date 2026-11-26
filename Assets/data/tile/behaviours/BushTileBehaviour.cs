@@ -19,51 +19,38 @@ public class BushTileBehaviour : TileBehaviour
     [Range(0f, 1f)]
     [SerializeField] float woodChance; 
 
-    public override void OnRandomlyTick(TileLocation tileLocation, ChunkManager chunkManager)
-    {
+    public override void OnRandomlyTick(TileLocation tileLocation, ChunkManager chunkManager) {
         if (tileLocation.isBackground) return;
         if (!ShouldSpread()) return;
-
 
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 
             Vector3Int.left, Vector3Int.right
         };
         
-        foreach (var relativePos in positions) {
-            var success = chunkManager.TryGetTileLocation(
-                tileLocation.positionInWorld + relativePos, 
-                isBackground:true,
-                out var location
-            );
-            if (!success) continue;
+        var (success, neighbours) = TileUtil.TryGetAllRelative(tileLocation, positions);
 
-            success = chunkManager.TryGetTileLocation(
-                tileLocation.positionInWorld + relativePos, 
-                isBackground:false,
-                out var aboveLocation
-            );
-            if (!success) continue;
-
-            success = aboveLocation.TryResolve(
+        foreach (var neighbour in neighbours) {
+            var neighbourBackground = neighbour.AsBackground();
+            success = neighbour.TryResolve(
                 out byte aboveTile
             );
             if (!success) continue;
-            if (aboveTile != this.idOfEmptyTile) continue;
-
-            success = location.TryResolve(
+            success = neighbourBackground.TryResolve(
                 out byte backgroundTile
             );
             if (!success) continue;
+
+            if (aboveTile != this.idOfEmptyTile) continue;
             if (backgroundTile != this.indexOfAshTile) continue;
 
-            aboveLocation.TryPut(
+            neighbour.TryPut(
                 ShouldGrowWoodInstead()
                     ? (byte) this.indexOfWoodTile
                     : (byte) this.indexOfBushTile
             );
             if (ShouldConsumeAsh()) {
-                location.TryPut((byte) this.indexOfDirtTile);
+                neighbourBackground.TryPut((byte) this.indexOfDirtTile);
             }
             break;
         }

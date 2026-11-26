@@ -47,38 +47,28 @@ public class FireTileBehaviour : TileBehaviour
             Vector3Int.up, Vector3Int.down, 
             Vector3Int.left, Vector3Int.right
         };
-        
-        foreach (var relativePos in positions) {
-            var success = chunkManager.TryGetTileLocation(
-                tileLocation.positionInWorld + relativePos, 
-                isBackground:true,
-                out var location
-            );
-            if (!success) break;
-            
-            success = chunkManager.TryGetTileLocation(
-                tileLocation.positionInWorld + relativePos, 
-                isBackground:false,
-                out var aboveLocation
-            );
-            if (!success) break;
 
-            success = aboveLocation.TryResolve(
+        var (success, neighbours) = TileUtil.TryGetAllRelative(tileLocation, positions);
+
+        foreach (var neighbour in neighbours) {
+            var neighbourBackground = neighbour.AsBackground();
+
+            success = neighbour.TryResolve(
                 out byte aboveTile
             );
             if (!success) continue;
-            if (aboveTile != this.idOfEmptyTile) continue;
-
-            success = location.TryResolve(
+            success = neighbourBackground.TryResolve(
                 out byte backgroundTile
             );
             if (!success) continue;
-            
+
+            if (aboveTile != this.idOfEmptyTile) continue;
             if (this.idsOfBurnableTiles.Contains(backgroundTile)) {
-                aboveLocation.TryPut((byte)this.idOfFireTile);
-                location.TryPut((byte)this.idOfAshTile);
+                neighbour.TryPut((byte)this.idOfFireTile);
+                neighbourBackground.TryPut((byte)this.idOfAshTile);
             }
         }
+        
         if (this.random.NextDouble() < this.extinguishChance) {
             tileLocation.TryPut((byte)this.idOfEmptyTile);
         }

@@ -3,12 +3,61 @@ using System.Linq;
 using static System.Linq.Enumerable;
 using UnityEngine;
 using System;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 
 public class TerrainGenerator : MonoBehaviour
 {
 
-    [Header("Noise")]
     
+    
+    [Serializable]
+    public struct Noise {
+        [Serializable]
+        public enum Type {
+            PERLIN = 0, WORLEY = 1
+        }
+
+        public Type type;
+
+        [Space(10)]
+        public float scaleX;
+        public float scaleY;        
+
+        [Space(5)]
+        [Range(0f, 1f)]
+        public float weight;
+
+        public float Get(float x, float y, float offsetX, float offsetY) {
+            return this.type switch {
+                Type.PERLIN => Mathf.PerlinNoise(
+                    (x * this.scaleX) + offsetX,
+                    (y * this.scaleX) + offsetY
+                ),
+                Type.WORLEY => noise.cellular(
+                    new float2(
+                        x * this.scaleX + offsetX,
+                        y * this.scaleX + offsetY
+                    )
+                ).x,
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        public static float Average(
+            float x, float y, float offsetX, float offsetY, 
+            IEnumerable<Noise> noiseLayers
+        ) {
+            var total = noiseLayers.Sum(it => it.weight * it.Get(x, y, offsetX, offsetY));
+            var weightTotal = noiseLayers.Sum(it => it.weight);
+            return total / weightTotal;
+        }
+    }
+    
+    [Header("Noise")]
+    [SerializeField] List<Noise> noiseLayers = new();
+
+    [Space(10)]
     [SerializeField] float scaleX;
     [SerializeField] float scaleY;
 
@@ -138,13 +187,20 @@ public class TerrainGenerator : MonoBehaviour
     ChunkGameObject Generate(Vector3Int chunkPos) {
         float x = chunkPos.x + 0.001f;
         float y = chunkPos.y + 0.001f;
-        float rand = Mathf.PerlinNoise(
+        /* float rand = Mathf.PerlinNoise(
             (x * this.scaleX) + this.offsetX, 
             (y * this.scaleY) + this.offsetY
-        );
+        ); */       
+
         float variance = Mathf.PerlinNoise(
             (x * this.scaleX) + this.varianceOffsetX, 
             (y * this.scaleY) + this.varianceOffsetY
+        );
+
+        var rand = Noise.Average(
+            x, y,
+            this.offsetX, this.offsetY,
+            this.noiseLayers
         );
 
         ChunkGameObject chunk = null;

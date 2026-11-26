@@ -17,16 +17,11 @@ public class DirtTileBehaviour : TileBehaviour
             Vector3Int.up, Vector3Int.down, 
             Vector3Int.left, Vector3Int.right
         };
-        
-        foreach (var relativePos in positions) {
-            var success = chunkManager.TryGetTileLocation(
-                tileLocation.positionInWorld + relativePos, 
-                isBackground:true,
-                out var location
-            );
-            if (!success) continue;
-            
-            success = location.TryResolve(
+
+        var (success, neighbours) = TileUtil.TryGetAllRelative(tileLocation, positions);
+
+        foreach (var neighbour in neighbours) {
+            success = neighbour.TryResolve(
                 out var tile
             );
             if (!success) continue;

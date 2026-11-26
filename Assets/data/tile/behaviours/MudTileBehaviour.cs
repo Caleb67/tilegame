@@ -11,30 +11,23 @@ public class MudTileBehaviour : TileBehaviour
     }
 
     public override void OnUpdated(TileLocation tileLocation, ChunkManager chunkManager) {
-
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 
             Vector3Int.left, Vector3Int.right
         };
-        
-        foreach (var relativePos in positions) {
-            var success = chunkManager.TryGetTileLocation(
-                tileLocation.positionInWorld + relativePos, 
-                tileLocation.isBackground,
-                out var location
-            );
-            if (!success) continue;
-            
-            success = location.TryResolve(
+
+        var (success, neighbours) = TileUtil.TryGetAllRelative(tileLocation, positions);
+        if (!success) return;
+
+        foreach (var neighbour in neighbours) {
+            success = neighbour.TryResolve(
                 out byte neighbourTile
             );
-            if (!success) continue;
-
-            if (neighbourTile != this.idOfSandTile) {
-                return;
-            }
+            if (!success) return;
+            if (neighbourTile != this.idOfSandTile) return;
         }
         
         tileLocation.TryPut((byte)this.idOfClayTile);
     }
+
 }
