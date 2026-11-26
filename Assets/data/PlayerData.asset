@@ -13,19 +13,11 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   <baseInventoryCapacity>k__BackingField: 1024
-  savePath: dev_save
-  playerStartPos: {x: 0, y: 0}
-  saveSeed: 10
+  savePath: WORLD
+  playerStartPos: {x: 4, y: 4}
+  saveSeed: 1342522293
   isSandboxMode: 1
   <inventory>k__BackingField:
     <capacityUnits>k__BackingField: 1024
-    <occupiedUnits>k__BackingField: 454
-    contents:
-    - id: 2
-      count: 267
-    - id: 1
-      count: 58
-    - id: 0
-      count: 13
-    - id: 6
-      count: 45
+    <occupiedUnits>k__BackingField: 0
+    contents: []

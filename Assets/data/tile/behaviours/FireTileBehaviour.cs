@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FireTileBehaviour", menuName = "Tile Behaviours/FireTileBehaviour")]
@@ -40,7 +38,10 @@ public class FireTileBehaviour : TileBehaviour
             location.TryPut((byte)this.idOfAshTile);
         }
     }
-
+    public override void OnDestroyed(TileLocation tileLocation, ChunkManager chunkManager) {
+        Debug.Log("test?");
+        this.activeFires.RemoveAll(loc => tileLocation.IsSameLocation(loc));
+    }
     void TickFire(TileLocation tileLocation, ChunkManager chunkManager) {
         var positions = new[]{
             Vector3Int.up, Vector3Int.down, 
@@ -79,7 +80,7 @@ public class FireTileBehaviour : TileBehaviour
             }
         }
         if (this.random.NextDouble() < this.extinguishChance) {
-            tileLocation.TryPut((byte)this.idOfEmptyTile);    
+            tileLocation.TryPut((byte)this.idOfEmptyTile);
         }
     }
 
