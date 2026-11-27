@@ -24,6 +24,8 @@ public class PlaceTile : MonoBehaviour
     [SerializeField] String notEnoughInventorySpace;
     [TextArea(3, 3)]
     [SerializeField] String cannotPlaceInBackground;
+    [TextArea(3, 3)]
+    [SerializeField] String cannotPlaceInForeground;
 
 
     [Header("Tile Info")]
@@ -81,6 +83,12 @@ public class PlaceTile : MonoBehaviour
             ) {
                 goto CANNOT_PLACE_IN_BACKGROUND;
             }
+            if (
+                this.globalTileInfo.backgroundExclusiveTiles.Contains(this.index)
+                && !this.isBackground
+            ) {
+                goto CANNOT_PLACE_IN_FOREGROUND;
+            }
 
             if (!_TryPutTile(chunk, mouseWorldPos, (byte)tileToPut, this.isBackground, updateNeighbours:true)) return;
             
@@ -89,6 +97,9 @@ public class PlaceTile : MonoBehaviour
         return;
     CANNOT_PLACE_IN_BACKGROUND: 
         this.errorPrompt.ShouldShow(this.cannotPlaceInBackground);
+        return;
+    CANNOT_PLACE_IN_FOREGROUND:
+        this.errorPrompt.ShouldShow(this.cannotPlaceInForeground);
         return;
     }
 

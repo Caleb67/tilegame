@@ -22,7 +22,10 @@ public class GlobalTileInfo : ScriptableObject {
     [SerializeField] public Dictionary<byte, String> tileNames = new();
 
     [SerializeField] public Dictionary<int, TileBehaviour> tileBehaviours = new();
-    [SerializeField] public List<int> foregroundExclusiveTiles;
+
+    [Space(10)]
+    public List<int> foregroundExclusiveTiles;
+    public List<int> backgroundExclusiveTiles;
 
     public static GlobalTileInfo s_instance {
         get; private set;

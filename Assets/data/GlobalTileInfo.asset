@@ -272,7 +272,7 @@ MonoBehaviour:
   backgroundEmptyID: 32
   foregroundEmptyID: 0
   <placeablesStartID>k__BackingField: 1
-  <placeablesEndID>k__BackingField: 31
+  <placeablesEndID>k__BackingField: 32
   tileNames:
   - key: 1
     value: GRAY BRICKS
@@ -338,6 +338,8 @@ MonoBehaviour:
     value: CERAMIC DARK 3
   - key: 31
     value: CERAMIC DARK 4
+  - key: 32
+    value: WATER
   tileBehaviours:
   - key: 4
     value: {fileID: 11400000, guid: ad0d0bfab0e18dc4bb57fb4f48ca8117, type: 2}
@@ -348,3 +350,4 @@ MonoBehaviour:
   - key: 14
     value: {fileID: 11400000, guid: 6e747568802e2d644abe17bfb2f40e47, type: 2}
   foregroundExclusiveTiles: 0800000016000000i
+  backgroundExclusiveTiles: 20000000i

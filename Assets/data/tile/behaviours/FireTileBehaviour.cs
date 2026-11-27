@@ -7,6 +7,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FireTileBehaviour", menuName = "Tile Behaviours/FireTileBehaviour")]
 public class FireTileBehaviour : TileBehaviour
 {
+    [SerializeField] int idOfMagmaTile;
+
+    [Space(10)]
     [SerializeField] int idOfEmptyTile;
     [SerializeField] int idOfFireTile;
 
@@ -30,7 +33,7 @@ public class FireTileBehaviour : TileBehaviour
 
     readonly System.Random random = new();
     public override void OnPlaced(TileLocation tileLocation, ChunkManager chunkManager) {
-        this.activeFires.Add(tileLocation);
+        
 
         var success = chunkManager.TryGetTileLocation(
             tileLocation.positionInWorld, 
@@ -44,12 +47,16 @@ public class FireTileBehaviour : TileBehaviour
         );
         if (!success) return;
 
+        if (IsMagmaTile(backgroundTile)) return;
+
         if (IsBurnableTile(backgroundTile)) {
             location.TryPut((byte)this.idOfAshTile);
         }
         if (IsClayTile(backgroundTile)) {
             location.TryPut((byte)this.idOfCeramicTile);
         }
+
+        this.activeFires.Add(tileLocation);
     }
     public override void OnDestroyed(TileLocation tileLocation, ChunkManager chunkManager) {
         //Debug.Log("test?");
@@ -124,4 +131,5 @@ public class FireTileBehaviour : TileBehaviour
 
     bool IsBurnableTile(byte tileId) => this.idsOfBurnableTiles.Contains(tileId);
     bool IsClayTile(byte tileId) => this.idsOfClayTiles.Contains(tileId);
+    bool IsMagmaTile(byte tileId) => tileId == this.idOfMagmaTile;
 }

@@ -1091,6 +1091,10 @@ PrefabInstance:
       value: CANT PLACE IN BACKGROUND
       objectReference: {fileID: 0}
     - target: {fileID: 2052812748147611089, guid: 6f9d34c792159f04ebdf5e445eb6e023, type: 3}
+      propertyPath: cannotPlaceInForeground
+      value: CANT PLACE IN FOREGROUND
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052812748147611089, guid: 6f9d34c792159f04ebdf5e445eb6e023, type: 3}
       propertyPath: notEnoughInventorySpace
       value: NO INVENTORY SPACE
       objectReference: {fileID: 0}

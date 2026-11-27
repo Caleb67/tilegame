@@ -16,7 +16,7 @@ MonoBehaviour:
   savePath: terrain_test
   playerStartPos: {x: 0, y: 0}
   saveSeed: 1
-  isSandboxMode: 1
+  isSandboxMode: 0
   <inventory>k__BackingField:
     <capacityUnits>k__BackingField: 1024
     <occupiedUnits>k__BackingField: 0

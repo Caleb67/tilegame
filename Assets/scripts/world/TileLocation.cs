@@ -27,7 +27,7 @@ public struct TileLocation {
 
     public bool TryPut(byte tile, bool updateNeighbours = false) {
         try {
-            this.chunk.chunk.PutTile(this, tile, this.isBackground);    
+            this.chunk.chunk.PutTile(this, tile, this.isBackground, updateNeighbours);    
             return true;
         } catch (NullReferenceException) {
             Debug.Log($"failed to place tile at: {this.positionInWorld}, tile id: {tile}");
@@ -36,10 +36,10 @@ public struct TileLocation {
     }
 
     public readonly TileLocation AsBackground() {
-        return new(this.chunk, this.positionInChunk, this.positionInWorld, true);
+        return new(this.chunk, this.positionInChunk, this.positionInWorld, isBackground:true);
     }
     public readonly TileLocation AsForeground() {
-        return new(this.chunk, this.positionInChunk, this.positionInWorld, false);
+        return new(this.chunk, this.positionInChunk, this.positionInWorld, isBackground:false);
     }
     
     public readonly bool IsSameLocation(TileLocation other) {
