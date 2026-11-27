@@ -99,6 +99,8 @@ public class TerrainGenerator : MonoBehaviour
 
     Dictionary<Vector3Int, ChunkGameObject> loadedChunks = new();
 
+    WildlifePopulation wildlife;
+
     float offsetX;
     float offsetY;
 
@@ -120,6 +122,7 @@ public class TerrainGenerator : MonoBehaviour
         this.offsetY = (float) random.NextDouble() * 10_000f;
         this.varianceOffsetX = (float) random.NextDouble() * 10_000f;
         this.varianceOffsetY = (float) random.NextDouble() * 10_000f;
+        this.wildlife = new WildlifePopulation(this.seed, this.transform, GlobalTileInfo.s_instance);
     }
 
     
@@ -134,6 +137,7 @@ public class TerrainGenerator : MonoBehaviour
         foreach (var pos in positionsToLoad) {
             if (!this.loadedChunks.ContainsKey(pos)) {
                 this.loadedChunks[pos] = LoadOrGenerate(pos);
+                this.wildlife?.OnChunkLoaded(pos, this.loadedChunks[pos]);
             }
             if (this.loadedChunks[pos].IsModified() && this.shouldSave) {
                 WriteToFile(this.loadedChunks[pos], pos);
@@ -142,6 +146,7 @@ public class TerrainGenerator : MonoBehaviour
             this.loadedChunks[pos].MarkClean();
         }
         this.shouldSave = false;
+        this.wildlife?.Tick(Time.deltaTime);
     }
 
     void Update() {
@@ -153,10 +158,15 @@ public class TerrainGenerator : MonoBehaviour
             if (entry.Value.IsModified()) {
                 WriteToFile(entry.Value, entry.Key);
             }
+            this.wildlife?.OnChunkUnloaded(entry.Key);
             Destroy(entry.Value.gameObject);
             this.loadedChunks.Remove(entry.Key);
             
         }
+    }
+
+    void OnDestroy() {
+        this.wildlife?.Dispose();
     }
 
     Vector3Int[] GetPositionsToLoad(Vector3Int center) {
